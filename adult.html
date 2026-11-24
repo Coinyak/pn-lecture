@@ -151,6 +151,16 @@
   .tools button[aria-pressed="true"] { background: #ffe39a; border-color: #e0b03a; }
   #pen[aria-pressed="true"] { background: #ffc2e2; border-color: #e06aa0; }
   #eraser[aria-pressed="true"] { background: #f6d6d6; border-color: #c98b8b; }
+  .tools a.home {
+    font: inherit;
+    font-size: 13px;
+    padding: 6px 10px;
+    border: 1px solid #16325c;
+    border-radius: 6px;
+    background: #16325c;
+    color: #fff;
+    text-decoration: none;
+  }
   .tools .count { color: #5c6b7a; font-size: 12px; min-width: 3.2em; }
   body.pen, body.eraser { cursor: text; }
   ::highlight(user-mark) { background-color: #ffb3d9; color: inherit; }
@@ -305,6 +315,7 @@
   <button type="button" id="pen" aria-pressed="false" title="누른 뒤 글자를 드래그하면 표시되고 이 브라우저에 저장됩니다">형광펜</button>
   <button type="button" id="eraser" aria-pressed="false" title="지울 글자를 드래그하거나 표시를 클릭합니다">지우개</button>
   <span id="markcount" class="count" aria-live="polite"></span>
+  <a class="home" href="index.html">과정 선택</a>
   <div id="tocdock">
     <div id="tocpanel" hidden>
       <a class="toc-all" href="#toc">전체 목차</a>
@@ -322,7 +333,6 @@
         <span id="where">목차</span>
         <span id="pagepos"></span>
       </button>
-      <a href="index.html">첫 화면</a>
       <a href="#toc">목차</a>
     </div>
   </div>
