@@ -293,10 +293,25 @@
     color: #16325c;
     cursor: pointer;
   }
-  #syncstate { width: 100%; margin: 0; color: #5c6b7a; }
-  #lostmarks { padding: 4px 8px 0; }
+  #syncstate {
+    width: 100%;
+    margin: 0;
+    color: #5c6b7a;
+    background: rgba(255,255,255,.96);
+    border-radius: 8px;
+  }
+  #syncstate:empty { display: none; }
+  #syncstate.is-error {
+    color: #9b1c4a;
+    font-weight: 650;
+    padding: 4px 8px;
+    border: 1px solid #f0b7cf;
+  }
+  .lostbox { flex-basis: 100%; margin: 0; color: #5c6b7a; font-size: 12px; }
+  .lostbox[hidden] { display: none !important; }
+  .lostbox summary { cursor: pointer; }
+  #lostmarks { padding: 4px 0 0; }
   #lostmarks p { margin: 0 0 4px; font-size: 12px; line-height: 1.4; color: #16325c; }
-  #lostmarks .lost-title { color: #5c6b7a; }
 
   @media print {
     body { padding: 0; max-width: none; }
@@ -318,18 +333,21 @@
   <button type="button" id="pen" aria-pressed="false" title="누른 뒤 글자를 드래그하면 표시되고, 이 브라우저와 오른쪽 아래 코드에 남습니다">형광펜</button>
   <button type="button" id="eraser" aria-pressed="false" title="지울 글자를 드래그하거나 표시를 클릭합니다">지우개</button>
   <span id="markcount" class="count" aria-live="polite"></span>
+  <details id="lostbox" class="lostbox" hidden>
+    <summary>이 페이지에서 못 찾은 표시</summary>
+    <div id="lostmarks"></div>
+  </details>
   <a class="home" href="index.html">과정 선택</a>
   <div id="tocdock">
+    <p id="syncstate" aria-live="polite"></p>
     <div id="tocpanel" hidden>
       <a class="toc-all" href="#toc">전체 목차</a>
       <ol id="seclist"></ol>
-      <div id="lostmarks"></div>
       <form id="syncform">
         <label for="synccode">이 브라우저 코드. 다른 컴퓨터에도 같은 코드를 넣으면 형광이 맞춰집니다</label>
         <input id="synccode" type="text" autocomplete="off" spellcheck="false" maxlength="40" placeholder="4자 이상">
         <button type="button" id="syncnew">새 코드</button>
         <button type="submit">연결</button>
-        <p id="syncstate"></p>
       </form>
     </div>
     <div id="tocjump">
@@ -14788,7 +14806,7 @@
   }
 
   function resolve(a) {
-    if (!a || !a.text || a.deleted) return null;
+    if (!a || !a.text || a.deleted || !index) return null;
     var needle = (a.pre || "") + a.text + (a.post || "");
     var want = a.n || 1;
     var from = 0;
@@ -14830,15 +14848,23 @@
     return out;
   }
 
+  function noteLocalFail() {
+    var el = document.getElementById("syncstate");
+    if (!el) return;
+    el.textContent = "이 브라우저에 저장하지 못했습니다";
+    el.classList.add("is-error");
+  }
   function store() {
     var at = Date.now();
-    try { localStorage.setItem(KEY, JSON.stringify({ v: 1, marks: saved, at: at })); } catch (e) {}
+    try { localStorage.setItem(KEY, JSON.stringify({ v: 1, marks: saved, at: at })); }
+    catch (e) { noteLocalFail(); }
     if (!store.quiet && window.__adrPushMarks) window.__adrPushMarks(saved, at);
   }
   window.__adrReplaceMarks = function (marks, at) {
     saved = Array.isArray(marks) ? marks : [];
     store.quiet = true;
-    try { localStorage.setItem(KEY, JSON.stringify({ v: 1, marks: saved, at: at || Date.now() })); } catch (e) {}
+    try { localStorage.setItem(KEY, JSON.stringify({ v: 1, marks: saved, at: at || Date.now() })); }
+    catch (e) { noteLocalFail(); }
     store.quiet = false;
     paintMarks();
     if (hits.length) paintSearch();
@@ -14862,18 +14888,18 @@
   }
 
   function renderLost(lost) {
-    var box = document.getElementById("lostmarks");
-    if (!box) return;
-    while (box.firstChild) box.removeChild(box.firstChild);
+    var box = document.getElementById("lostbox");
+    var list = document.getElementById("lostmarks");
+    if (!list) return;
+    while (list.firstChild) list.removeChild(list.firstChild);
+    if (box) box.hidden = !lost.length;
     if (!lost.length) return;
-    var title = document.createElement("p");
-    title.className = "lost-title";
-    title.textContent = "본문이 바뀌어 위치를 못 찾은 표시";
-    box.appendChild(title);
+    var summary = box ? box.querySelector("summary") : null;
+    if (summary) summary.textContent = "이 페이지에서 못 찾은 표시 " + lost.length + "곳";
     for (var i = 0; i < lost.length; i++) {
       var p = document.createElement("p");
       p.textContent = String(lost[i].text || "").replace(/\s+/g, " ").trim();
-      box.appendChild(p);
+      list.appendChild(p);
     }
   }
 
@@ -14896,8 +14922,8 @@
     }
     if (note) {
       if (!live.length) note.textContent = "";
-      else if (lost.length) note.textContent = (live.length - lost.length) + "곳 표시, " + lost.length + "곳은 문장이 바뀜";
-      else note.textContent = live.length + "곳 표시";
+      else if (lost.length) note.textContent = live.length + "곳 저장 · " + lost.length + "곳은 이 페이지에서 못 찾음";
+      else note.textContent = live.length + "곳 저장";
     }
     renderLost(lost);
     var pen = document.getElementById("pen");
@@ -14976,31 +15002,54 @@
     }
   }
 
+  function markIdentity(mark) {
+    return [mark.text || "", mark.pre || "", mark.post || "", mark.n || 1].join("\n");
+  }
   function replaceSaved(list) {
+    var now = Date.now();
     var merged = merge(list);
     var tombstones = [];
     var unresolved = [];
+    var prevLive = {};
+    var prevDead = {};
     for (var j = 0; j < saved.length; j++) {
       var mark = saved[j];
       if (!mark || !mark.text) continue;
-      if (mark.deleted) { tombstones.push(mark); continue; }
+      var id = markIdentity(mark);
+      if (mark.deleted) {
+        if (!prevDead[id] || (mark.at || 0) >= (prevDead[id].at || 0)) prevDead[id] = mark;
+        continue;
+      }
       var at = resolve(mark);
       if (!at) { unresolved.push(mark); continue; }
+      prevLive[id] = mark;
       var covered = false;
       for (var k = 0; k < merged.length; k++) {
         if (merged[k][0] === at[0] && merged[k][1] === at[1]) { covered = true; break; }
       }
-      if (!covered) tombstones.push(Object.assign({}, mark, { deleted: true, at: Date.now() }));
+      if (!covered) {
+        tombstones.push(Object.assign({}, mark, {
+          deleted: true,
+          at: Math.max(now, (mark.at || 0) + 1)
+        }));
+      }
     }
     var fresh = [];
-    for (var i = 0; i < merged.length; i++) fresh.push(makeAnchor(merged[i][0], merged[i][1]));
+    for (var i = 0; i < merged.length; i++) {
+      var anchor = makeAnchor(merged[i][0], merged[i][1]);
+      var fid = markIdentity(anchor);
+      var prev = prevLive[fid];
+      if (prev) anchor.at = prev.at;
+      else if (prevDead[fid]) anchor.at = Math.max(anchor.at || now, (prevDead[fid].at || 0) + 1);
+      fresh.push(anchor);
+    }
     var live = [];
     var seenLive = {};
-    var pool = unresolved.concat(fresh);
+    var pool = fresh.concat(unresolved);
     for (var a = 0; a < pool.length; a++) {
-      var id = markIdentity(pool[a]);
-      if (seenLive[id]) continue;
-      seenLive[id] = 1;
+      var liveId = markIdentity(pool[a]);
+      if (seenLive[liveId]) continue;
+      seenLive[liveId] = 1;
       live.push(pool[a]);
     }
     var seenDead = {};
@@ -15011,6 +15060,11 @@
       seenDead[deadId] = 1;
       dead.push(Object.assign({}, tombstones[t], { deleted: true }));
     }
+    Object.keys(prevDead).forEach(function (deadId) {
+      if (seenLive[deadId] || seenDead[deadId]) return;
+      seenDead[deadId] = 1;
+      dead.push(Object.assign({}, prevDead[deadId], { deleted: true }));
+    });
     saved = live.concat(dead);
     store();
     paintMarks();
@@ -15156,6 +15210,13 @@
   var channel = null;
   var hash = "";
   var pollTimer = 0;
+  var ready = false;
+  var wantPush = false;
+  var pushing = false;
+  var lastRemoteAt = 0;
+  var pushFails = 0;
+  var syncError = "";
+  var sendGen = 0;
 
   function headsOf(article) {
     var nodes = article.querySelectorAll(".slide h3");
@@ -15251,7 +15312,22 @@
   window.addEventListener("hashchange", schedule);
   place();
 
-  function setState(text) { if (state) state.textContent = text; }
+  function setState(text) {
+    if (syncError) return;
+    if (!state) return;
+    state.classList.remove("is-error");
+    state.textContent = text;
+  }
+  function showError(text) {
+    syncError = text;
+    if (!state) return;
+    state.classList.add("is-error");
+    state.textContent = text;
+  }
+  function clearError() {
+    syncError = "";
+    if (state) state.classList.remove("is-error");
+  }
   function localMarks() {
     try { return JSON.parse(localStorage.getItem(MARK_KEY) || "{}"); }
     catch (e) { return {}; }
@@ -15259,28 +15335,38 @@
   function markKey(mark) {
     return [mark.text || "", mark.pre || "", mark.post || "", mark.n || 1].join("\n");
   }
-  function unionMarks(primary, extra) {
+  function unionMarks(aList, bList) {
     var map = new Map();
     function put(mark) {
       if (!mark || !mark.text) return;
       var key = markKey(mark);
       var prev = map.get(key);
-      if (!prev || (mark.at || 0) >= (prev.at || 0)) map.set(key, mark);
+      if (!prev) { map.set(key, mark); return; }
+      var at = mark.at || 0;
+      var prevAt = prev.at || 0;
+      if (at > prevAt || (at === prevAt && mark.deleted && !prev.deleted)) map.set(key, mark);
     }
-    (extra || []).forEach(put);
-    (primary || []).forEach(put);
+    (aList || []).forEach(put);
+    (bList || []).forEach(put);
     return Array.from(map.values());
   }
   function sameMarkList(a, b) {
-    if (!a || !b || a.length !== b.length) return false;
-    var keys = {};
-    for (var i = 0; i < a.length; i++) keys[markKey(a[i]) + (a[i].deleted ? "\tdeleted" : "")] = 1;
-    for (var j = 0; j < b.length; j++) {
-      if (!keys[markKey(b[j]) + (b[j].deleted ? "\tdeleted" : "")]) return false;
+    function pack(list) {
+      var rows = [];
+      for (var i = 0; i < (list || []).length; i++) {
+        var m = list[i];
+        if (!m || !m.text) continue;
+        rows.push(markKey(m) + "\t" + (m.deleted ? "1" : "0") + "\t" + (m.at || 0));
+      }
+      rows.sort();
+      return rows;
     }
+    var x = pack(a);
+    var y = pack(b);
+    if (x.length !== y.length) return false;
+    for (var n = 0; n < x.length; n++) if (x[n] !== y[n]) return false;
     return true;
   }
-  var pushing = false;
   function digest(text) {
     return crypto.subtle.digest("SHA-256", new TextEncoder().encode("pn-lecture:" + text)).then(function (buf) {
       return Array.from(new Uint8Array(buf)).map(function (b) {
@@ -15303,48 +15389,80 @@
     var code = codeInput ? codeInput.value : "";
     return (live ? ("표시 " + live + "곳. ") : "표시 없음. ") + (code ? ("코드 " + code) : "");
   }
-  function reconcile(remote) {
+  function currentMarks() {
     var local = localMarks();
-    var localList = Array.isArray(local.marks) ? local.marks : [];
-    var remoteList = Array.isArray(remote && remote.marks) ? remote.marks : [];
-    var merged = unionMarks(localList, remoteList);
-    var now = Date.now();
-    if (!sameMarkList(merged, localList) && window.__adrReplaceMarks) {
-      window.__adrReplaceMarks(merged, Math.max(local.at || 0, remote && remote.at || 0, now));
+    return Array.isArray(local.marks) ? local.marks : [];
+  }
+  function payloadMarks(list) {
+    var live = [];
+    var dead = [];
+    for (var i = 0; i < (list || []).length; i++) {
+      var m = list[i];
+      if (!m || !m.text) continue;
+      if (m.deleted) dead.push(m);
+      else live.push(m);
     }
-    if (!sameMarkList(merged, remoteList) && window.__adrPushMarks) window.__adrPushMarks(merged, now);
-    setState(statusLine(merged));
+    dead.sort(function (a, b) { return (b.at || 0) - (a.at || 0); });
+    if (live.length >= 2000) return live;
+    return live.concat(dead.slice(0, 2000 - live.length));
+  }
+  function needsUpload(localList, remoteList) {
+    return !sameMarkList(payloadMarks(localList), remoteList || []);
+  }
+  function reconcile(remote) {
+    var remoteList = Array.isArray(remote && remote.marks) ? remote.marks : [];
+    if (remote && remote.at) lastRemoteAt = remote.at;
+    var merged = unionMarks(currentMarks(), remoteList);
+    if (!sameMarkList(merged, currentMarks()) && window.__adrReplaceMarks) {
+      window.__adrReplaceMarks(merged, Date.now());
+    }
+    if (needsUpload(currentMarks(), remoteList)) queuePush(false);
+    else if (!syncError) setState(statusLine(currentMarks()));
   }
   function pull() {
-    if (!client || !hash) return;
+    if (!client || !hash || !ready) return;
     client.rpc("adr_get_marks", { code_hash: hash }).then(function (res) {
-      if (!res || res.error || !res.data) return;
+      if (!res || res.error || !res.data) {
+        showError("가져오지 못했습니다. 이 브라우저에는 남습니다");
+        return;
+      }
+      if (syncError === "가져오지 못했습니다. 이 브라우저에는 남습니다") clearError();
       reconcile(res.data);
+    }).catch(function () {
+      showError("가져오지 못했습니다. 이 브라우저에는 남습니다");
     });
   }
   function connect(code) {
     code = (code || "").trim();
     if (code.length < 4) {
+      clearError();
       setState("코드는 4자 이상으로 넣어 주세요");
       return;
     }
     try { localStorage.setItem(CODE_KEY, code); } catch (e) {}
     if (codeInput) codeInput.value = code;
+    sendGen++;
+    pushing = false;
+    ready = false;
+    clearError();
     setState("연결하는 중");
     loadLib().then(function (lib) {
-      if (!lib) { setState("연결 파일을 열지 못했습니다. 이 브라우저에는 남습니다"); return; }
+      if (!lib) { showError("연결 파일을 열지 못했습니다. 이 브라우저에는 남습니다"); return; }
       return digest(code).then(function (nextHash) {
         hash = nextHash;
         if (!client) client = lib.createClient(URL, ANON);
         if (channel) { client.removeChannel(channel); channel = null; }
         clearInterval(pollTimer);
         return client.rpc("adr_get_marks", { code_hash: hash }).then(function (res) {
-          if (res.error) { setState("연결하지 못했습니다"); return; }
-          reconcile(res.data || { marks: [], at: 0 });
+          if (res.error) { showError("연결하지 못했습니다. 이 브라우저에는 남습니다"); return; }
+          var remoteRow = res.data || { marks: [], at: 0 };
+          if (remoteRow.at) lastRemoteAt = remoteRow.at;
+          ready = true;
+          reconcile(remoteRow);
           channel = client.channel("pn-lecture-marks:" + hash, { config: { broadcast: { self: false } } });
           channel.on("broadcast", { event: "marks" }, function () { pull(); });
           channel.subscribe(function (status) {
-            if (status === "SUBSCRIBED") setState("연결됨. 다른 컴퓨터에도 이 코드를 넣으세요");
+            if (status === "SUBSCRIBED") setState(statusLine(currentMarks()));
             if (status === "CHANNEL_ERROR" || status === "TIMED_OUT") setState("실시간 연결이 늦습니다. 잠시 뒤 다시 맞춥니다");
           });
           pollTimer = setInterval(function () {
@@ -15352,28 +15470,65 @@
           }, 1500);
         });
       });
-    }).catch(function () { setState("연결하지 못했습니다"); });
+    }).catch(function () { showError("연결하지 못했습니다. 이 브라우저에는 남습니다"); });
   }
 
-  window.__adrPushMarks = function (marks, at) {
-    if (!client || !hash || pushing) return;
+  function queuePush(fromUser) {
+    if (fromUser) pushFails = 0;
+    if (!fromUser && pushFails >= 4) return;
+    wantPush = true;
+    pump();
+  }
+  function pump() {
+    if (!ready || pushing || !wantPush || !client || !hash) return;
+    wantPush = false;
     pushing = true;
-    client.rpc("adr_put_marks", { p_hash: hash, p_marks: marks, p_at: at }).then(function (res) {
+    var gen = ++sendGen;
+    var useHash = hash;
+    var marks = payloadMarks(currentMarks());
+    var at = Math.max(Date.now(), (lastRemoteAt || 0) + 1);
+    client.rpc("adr_put_marks", { p_hash: useHash, p_marks: marks, p_at: at }).then(function (res) {
+      if (gen !== sendGen) return;
       pushing = false;
-      if (!res || res.error) { setState("저장하지 못했습니다. 이 브라우저에는 남습니다"); return; }
+      if (useHash !== hash) return;
+      if (!res || res.error) {
+        pushFails++;
+        wantPush = pushFails < 4;
+        showError("저장하지 못했습니다. 이 브라우저에는 남습니다");
+        if (wantPush) setTimeout(pump, 800);
+        return;
+      }
       var row = res.data || {};
       var remoteList = Array.isArray(row.marks) ? row.marks : [];
-      var local = localMarks();
-      var localList = Array.isArray(local.marks) ? local.marks : [];
-      var merged = unionMarks(localList, remoteList);
-      if (!sameMarkList(merged, localList) && window.__adrReplaceMarks) window.__adrReplaceMarks(merged, row.at || at);
-      if (channel) channel.send({ type: "broadcast", event: "marks", payload: { at: row.at || at } });
-      setState(statusLine(merged));
+      var remoteAt = row.at || 0;
+      if (remoteAt) lastRemoteAt = remoteAt;
+      var merged = unionMarks(currentMarks(), remoteList);
+      if (!sameMarkList(merged, currentMarks()) && window.__adrReplaceMarks) {
+        window.__adrReplaceMarks(merged, remoteAt || at);
+      }
+      if (needsUpload(currentMarks(), remoteList)) {
+        pushFails++;
+        if (pushFails < 4) wantPush = true;
+        else showError("저장하지 못했습니다. 이 브라우저에는 남습니다");
+      } else {
+        pushFails = 0;
+        clearError();
+        setState(statusLine(currentMarks()));
+        try {
+          if (channel) channel.send({ type: "broadcast", event: "marks", payload: { at: remoteAt || at } });
+        } catch (e) {}
+      }
+      if (wantPush) pump();
     }).catch(function () {
+      if (gen !== sendGen) return;
       pushing = false;
-      setState("저장하지 못했습니다. 이 브라우저에는 남습니다");
+      pushFails++;
+      wantPush = pushFails < 4;
+      showError("저장하지 못했습니다. 이 브라우저에는 남습니다");
+      if (wantPush) setTimeout(pump, 800);
     });
-  };
+  }
+  window.__adrPushMarks = function () { queuePush(true); };
 
   if (form) {
     form.addEventListener("submit", function (e) {
@@ -15392,6 +15547,14 @@
       if (codeInput) codeInput.value = out;
       connect(out);
     });
+  }
+  function newCode() {
+    var alphabet = "abcdefghjkmnpqrstuvwxyz23456789";
+    var bytes = new Uint8Array(8);
+    crypto.getRandomValues(bytes);
+    var out = "";
+    for (var i = 0; i < bytes.length; i++) out += alphabet[bytes[i] % alphabet.length];
+    return out;
   }
   var savedCode = "";
   try { savedCode = localStorage.getItem(CODE_KEY) || ""; } catch (e) {}
