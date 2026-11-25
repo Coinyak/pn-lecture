@@ -12261,6 +12261,7 @@
   var hits = [];
   var hitAt = -1;
   var saved = [];
+  window.__adrCurrentMarks = function () { return saved; };
   var mode = "";
   var skipClick = false;
 
@@ -12473,21 +12474,31 @@
   }
 
   function noteLocalFail() {
+    window.__adrLocalSaveFailed = true;
     var el = document.getElementById("syncstate");
     if (!el) return;
     el.textContent = "이 브라우저에 저장하지 못했습니다";
     el.classList.add("is-error");
   }
+  function noteLocalOk() {
+    window.__adrLocalSaveFailed = false;
+  }
   function store() {
     var at = Date.now();
-    try { localStorage.setItem(KEY, JSON.stringify({ v: 1, marks: saved, at: at })); }
+    try {
+      localStorage.setItem(KEY, JSON.stringify({ v: 1, marks: saved, at: at }));
+      noteLocalOk();
+    }
     catch (e) { noteLocalFail(); }
     if (!store.quiet && window.__adrPushMarks) window.__adrPushMarks(saved, at);
   }
   window.__adrReplaceMarks = function (marks, at) {
     saved = Array.isArray(marks) ? marks : [];
     store.quiet = true;
-    try { localStorage.setItem(KEY, JSON.stringify({ v: 1, marks: saved, at: at || Date.now() })); }
+    try {
+      localStorage.setItem(KEY, JSON.stringify({ v: 1, marks: saved, at: at || Date.now() }));
+      noteLocalOk();
+    }
     catch (e) { noteLocalFail(); }
     store.quiet = false;
     paintMarks();
@@ -12527,12 +12538,51 @@
     }
   }
 
+  function normalizeCuts(cuts) {
+    var arr = [];
+    for (var i = 0; i < (cuts || []).length; i++) {
+      var c = cuts[i];
+      if (!c || c.length < 2 || c[1] <= c[0]) continue;
+      arr.push([c[0], c[1]]);
+    }
+    arr.sort(function (a, b) { return a[0] - b[0] || a[1] - b[1]; });
+    var out = [];
+    for (var j = 0; j < arr.length; j++) {
+      if (!out.length || arr[j][0] > out[out.length - 1][1]) out.push(arr[j].slice());
+      else out[out.length - 1][1] = Math.max(out[out.length - 1][1], arr[j][1]);
+    }
+    return out;
+  }
+  function visibleOffsets(len, cuts) {
+    var parts = [[0, len]];
+    var norm = normalizeCuts(cuts);
+    for (var i = 0; i < norm.length; i++) {
+      var cs = norm[i][0], ce = norm[i][1];
+      var next = [];
+      for (var p = 0; p < parts.length; p++) {
+        var a = parts[p][0], b = parts[p][1];
+        if (ce <= a || cs >= b) { next.push(parts[p]); continue; }
+        if (a < cs) next.push([a, cs]);
+        if (ce < b) next.push([ce, b]);
+      }
+      parts = next;
+    }
+    return parts.filter(function (part) { return part[1] > part[0]; });
+  }
+  window.__adrNormalizeCuts = normalizeCuts;
+  window.__adrVisibleOffsets = visibleOffsets;
   function paintMarks() {
     var ranges = [];
-    var list = pairs();
-    for (var i = 0; i < list.length; i++) {
-      var r = rangeFrom(list[i][0], list[i][1]);
-      if (r) ranges.push(r);
+    for (var i = 0; i < saved.length; i++) {
+      var mark = saved[i];
+      if (!mark || !mark.text || mark.deleted) continue;
+      var span = resolve(mark);
+      if (!span) continue;
+      var parts = visibleOffsets(mark.text.length, mark.cuts);
+      for (var p = 0; p < parts.length; p++) {
+        var r = rangeFrom(span[0] + parts[p][0], span[0] + parts[p][1]);
+        if (r) ranges.push(r);
+      }
     }
     var ok = setHighlight("user-mark", ranges);
     var note = document.getElementById("markcount");
@@ -12647,11 +12697,14 @@
       var at = resolve(mark);
       if (!at) { unresolved.push(mark); continue; }
       prevLive[id] = mark;
-      var covered = false;
+      var coverId = "";
       for (var k = 0; k < merged.length; k++) {
-        if (merged[k][0] === at[0] && merged[k][1] === at[1]) { covered = true; break; }
+        if (merged[k][0] === at[0] && merged[k][1] === at[1]) {
+          coverId = markIdentity(makeAnchor(merged[k][0], merged[k][1]));
+          break;
+        }
       }
-      if (!covered) {
+      if (coverId !== id) {
         tombstones.push(Object.assign({}, mark, {
           deleted: true,
           at: Math.max(now, (mark.at || 0) + 1)
@@ -12695,36 +12748,63 @@
     if (hits.length) paintSearch();
   }
 
+  function commitMarks() {
+    store();
+    paintMarks();
+    if (hits.length) paintSearch();
+  }
   function addSpan(span) {
-    var list = pairs();
-    list.push(span);
-    replaceSaved(list);
+    var anchor = makeAnchor(span[0], span[1]);
+    var id = markIdentity(anchor);
+    for (var i = 0; i < saved.length; i++) {
+      if (markIdentity(saved[i]) !== id) continue;
+      saved[i] = Object.assign({}, saved[i], { deleted: false, cuts: [], at: Date.now() });
+      commitMarks();
+      return;
+    }
+    saved.push(anchor);
+    commitMarks();
   }
 
   function eraseSpan(span) {
-    var list = [];
-    var cur = pairs();
-    for (var i = 0; i < cur.length; i++) {
-      var s = cur[i][0];
-      var e = cur[i][1];
-      if (e <= span[0] || s >= span[1]) list.push(cur[i]);
-      else {
-        if (s < span[0]) list.push([s, span[0]]);
-        if (e > span[1]) list.push([span[1], e]);
-      }
+    var now = Date.now();
+    var changed = false;
+    var next = [];
+    for (var i = 0; i < saved.length; i++) {
+      var mark = saved[i];
+      if (!mark || !mark.text || mark.deleted) { next.push(mark); continue; }
+      var range = resolve(mark);
+      if (!range || range[1] <= span[0] || range[0] >= span[1]) { next.push(mark); continue; }
+      var rel0 = Math.max(0, span[0] - range[0]);
+      var rel1 = Math.min(mark.text.length, span[1] - range[0]);
+      if (rel1 <= rel0) { next.push(mark); continue; }
+      changed = true;
+      var cuts = normalizeCuts((mark.cuts || []).concat([[rel0, rel1]]));
+      var updated = Object.assign({}, mark, { cuts: cuts, at: now });
+      if (!visibleOffsets(mark.text.length, cuts).length) updated.deleted = true;
+      next.push(updated);
     }
-    replaceSaved(list);
+    if (!changed) return;
+    saved = next;
+    commitMarks();
   }
 
   function eraseAt(off) {
-    var cur = pairs();
-    var list = [];
-    var removed = false;
-    for (var i = 0; i < cur.length; i++) {
-      if (!removed && off >= cur[i][0] && off < cur[i][1]) removed = true;
-      else list.push(cur[i]);
+    var now = Date.now();
+    var changed = false;
+    var next = [];
+    for (var i = 0; i < saved.length; i++) {
+      var mark = saved[i];
+      if (!mark || !mark.text || mark.deleted) { next.push(mark); continue; }
+      var range = resolve(mark);
+      if (range && off >= range[0] && off < range[1]) {
+        changed = true;
+        next.push(Object.assign({}, mark, { deleted: true, at: now }));
+      } else next.push(mark);
     }
-    if (removed) replaceSaved(list);
+    if (!changed) return;
+    saved = next;
+    commitMarks();
   }
 
   function pointFromEvent(e) {
@@ -12937,7 +13017,7 @@
   place();
 
   function setState(text) {
-    if (syncError) return;
+    if (window.__adrLocalSaveFailed || syncError) return;
     if (!state) return;
     state.classList.remove("is-error");
     state.textContent = text;
@@ -12950,6 +13030,13 @@
   }
   function clearError() {
     syncError = "";
+    if (window.__adrLocalSaveFailed) {
+      var el = document.getElementById("syncstate");
+      if (!el) return;
+      el.classList.add("is-error");
+      el.textContent = "이 브라우저에 저장하지 못했습니다";
+      return;
+    }
     if (state) state.classList.remove("is-error");
   }
   function localMarks() {
@@ -12959,6 +13046,8 @@
   function markKey(mark) {
     return [mark.text || "", mark.pre || "", mark.post || "", mark.n || 1].join("\n");
   }
+  function normalizeCuts(cuts) { return window.__adrNormalizeCuts(cuts); }
+  function visibleOffsets(len, cuts) { return window.__adrVisibleOffsets(len, cuts); }
   function unionMarks(aList, bList) {
     var map = new Map();
     function put(mark) {
@@ -12968,7 +13057,13 @@
       if (!prev) { map.set(key, mark); return; }
       var at = mark.at || 0;
       var prevAt = prev.at || 0;
-      if (at > prevAt || (at === prevAt && mark.deleted && !prev.deleted)) map.set(key, mark);
+      var newer = (at > prevAt || (at === prevAt && mark.deleted && !prev.deleted)) ? mark : prev;
+      var older = newer === mark ? prev : mark;
+      if (newer.deleted) { map.set(key, newer); return; }
+      var cuts = normalizeCuts((newer.cuts || []).concat(older.cuts || []));
+      var merged = Object.assign({}, newer, { cuts: cuts, at: Math.max(at, prevAt) });
+      if (!visibleOffsets((merged.text || "").length, cuts).length) merged.deleted = true;
+      map.set(key, merged);
     }
     (aList || []).forEach(put);
     (bList || []).forEach(put);
@@ -12980,7 +13075,7 @@
       for (var i = 0; i < (list || []).length; i++) {
         var m = list[i];
         if (!m || !m.text) continue;
-        rows.push(markKey(m) + "\t" + (m.deleted ? "1" : "0") + "\t" + (m.at || 0));
+        rows.push(markKey(m) + "\t" + (m.deleted ? "1" : "0") + "\t" + (m.at || 0) + "\t" + JSON.stringify(m.cuts || []));
       }
       rows.sort();
       return rows;
@@ -13014,6 +13109,7 @@
     return (live ? ("표시 " + live + "곳. ") : "표시 없음. ") + (code ? ("코드 " + code) : "");
   }
   function currentMarks() {
+    if (window.__adrCurrentMarks) return window.__adrCurrentMarks();
     var local = localMarks();
     return Array.isArray(local.marks) ? local.marks : [];
   }
@@ -13027,8 +13123,8 @@
       else live.push(m);
     }
     dead.sort(function (a, b) { return (b.at || 0) - (a.at || 0); });
-    if (live.length >= 2000) return live;
-    return live.concat(dead.slice(0, 2000 - live.length));
+    if (dead.length >= 2000) return dead.slice(0, 2000);
+    return live.slice(0, 2000 - dead.length).concat(dead);
   }
   function needsUpload(localList, remoteList) {
     return !sameMarkList(payloadMarks(localList), remoteList || []);
@@ -13045,7 +13141,9 @@
   }
   function pull() {
     if (!client || !hash || !ready) return;
-    client.rpc("adr_get_marks", { code_hash: hash }).then(function (res) {
+    var asked = hash;
+    client.rpc("adr_get_marks", { code_hash: asked }).then(function (res) {
+      if (asked !== hash) return;
       if (!res || res.error || !res.data) {
         showError("가져오지 못했습니다. 이 브라우저에는 남습니다");
         return;
@@ -13053,6 +13151,7 @@
       if (syncError === "가져오지 못했습니다. 이 브라우저에는 남습니다") clearError();
       reconcile(res.data);
     }).catch(function () {
+      if (asked !== hash) return;
       showError("가져오지 못했습니다. 이 브라우저에는 남습니다");
     });
   }
@@ -13068,6 +13167,7 @@
     sendGen++;
     pushing = false;
     ready = false;
+    pushFails = 0;
     clearError();
     setState("연결하는 중");
     loadLib().then(function (lib) {
