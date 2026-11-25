@@ -294,6 +294,9 @@
     cursor: pointer;
   }
   #syncstate { width: 100%; margin: 0; color: #5c6b7a; }
+  #lostmarks { padding: 4px 8px 0; }
+  #lostmarks p { margin: 0 0 4px; font-size: 12px; line-height: 1.4; color: #16325c; }
+  #lostmarks .lost-title { color: #5c6b7a; }
 
   @media print {
     body { padding: 0; max-width: none; }
@@ -312,7 +315,7 @@
     <button type="button" id="qnext" aria-label="다음 결과">다음</button>
     <span id="qcount" class="count" aria-live="polite"></span>
   </form>
-  <button type="button" id="pen" aria-pressed="false" title="누른 뒤 글자를 드래그하면 표시되고 이 브라우저에 저장됩니다">형광펜</button>
+  <button type="button" id="pen" aria-pressed="false" title="누른 뒤 글자를 드래그하면 표시되고, 이 브라우저와 오른쪽 아래 코드에 남습니다">형광펜</button>
   <button type="button" id="eraser" aria-pressed="false" title="지울 글자를 드래그하거나 표시를 클릭합니다">지우개</button>
   <span id="markcount" class="count" aria-live="polite"></span>
   <a class="home" href="index.html">과정 선택</a>
@@ -320,8 +323,9 @@
     <div id="tocpanel" hidden>
       <a class="toc-all" href="#toc">전체 목차</a>
       <ol id="seclist"></ol>
+      <div id="lostmarks"></div>
       <form id="syncform">
-        <label for="synccode">다른 컴퓨터와 맞출 코드</label>
+        <label for="synccode">이 브라우저 코드. 다른 컴퓨터에도 같은 코드를 넣으면 형광이 맞춰집니다</label>
         <input id="synccode" type="text" autocomplete="off" spellcheck="false" maxlength="40" placeholder="4자 이상">
         <button type="button" id="syncnew">새 코드</button>
         <button type="submit">연결</button>
@@ -342,7 +346,7 @@
 <nav class="toc" id="toc">
   <p class="kicker">소아청소년 영양약료</p>
   <h1>강의 정리</h1>
-  <p class="lead">왼쪽은 슬라이드에 적힌 문장이고, 오른쪽은 강의에서 말한 설명입니다. 설명 문장에 마우스를 올리면 슬라이드의 그 항목이 표시됩니다. 검색으로 찾고, 형광펜을 누른 뒤 글자를 드래그하면 그 표시가 이 브라우저에 남습니다.</p>
+  <p class="lead">왼쪽은 슬라이드에 적힌 문장이고, 오른쪽은 강의에서 말한 설명입니다. 설명 문장에 마우스를 올리면 슬라이드의 그 항목이 표시됩니다. 검색으로 찾고, 형광펜을 누른 뒤 글자를 드래그하면 그 표시가 이 브라우저에 남고 오른쪽 아래 코드로도 올라갑니다.</p>
   <ol>
     <li><a href="#lec01">미숙아 신생아 영아의 생리적 특성과 성장</a></li>
     <li><a href="#lec02">미숙아 신생아 영아의 영양지원이 필요한 주요 질환과 영양공급시 주의사항</a></li>
@@ -1156,9 +1160,7 @@
 </section>
 <section class="pair">
   <div class="slide">
-<h3 data-hl="1-69">2. 계통 별 생리적 특성 및 성장 피부</h3>
-<ul><li data-hl="1-69-1">신생아의 일과성 병변</li><li data-hl="1-69-2">중처 : Martin, Richard. I er al Fanavoif and Martin&#x27; Neomatal Perinatal Medicine. Available fom: Flevier eBooks+.</li></ul>
-  </div>
+<h3 data-hl="1-69">신생아의 일과성 피부 병변</h3><p>연어반은 모세혈관이 늘어난 반점이다. 이마 한가운데, 눈꺼풀, 코, 아랫입술에 생기고, 가장 흔한 곳은 목덜미다. 3–4세쯤 없어진다.</p><p>피지선 과형성은 코 주변에 염증 없이 생기는 작은 노란·흰 모낭 구진이다.</p><p>독성 홍반은 발적 한가운데가 흰 병변이다. 얼굴에서 몸통까지 어디든 생기고, 너무 덥거나 습하면 심해질 수 있다. 정상적인 피부 소견이라 특별한 치료는 대개 필요 없고, 영아기가 되면 대부분 없어진다.</p><p data-hl="1-69-2">출처: Martin, Richard, et al. Fanaroff and Martin&#x27;s Neonatal-Perinatal Medicine. Elsevier eBooks+.</p><span data-hl="1-69-1" hidden></span></div>
   <div class="talk">
 <p><span data-hl="1-69">알조스테론 액티비티 감소로 인한 것으로 나타나고 있습니다.</span> <span data-hl="1-69">이수가에서 생후 3에서 5주경 지났을 경우에는 안사가에서 1에서 2주 지난 경우와 비슷한 정도의 칼륨 배설 능력을 갖게 됩니다.</span> <span data-hl="1-69">산염기 대사입니다.</span> <span data-hl="1-69">근이세뇨관의 중탄산염의 보존 능력과 산 배설의 능력이 모두 감소가 되어 있어 상대적으로 아기들은 첫 소주간 경도의 대사성 산증을 보일 수 있습니다.</span> <span data-hl="1-69">그래서 폐하 7.25 정도를 피지올로직하다고 볼 수 있고 익스트림 프리텀 인펀트 같은 경우는 생후 첫 수일 동안에는 폐하가 7.15인 경우도 허용 가능한 수치로 보고 있습니다.</span> <span data-hl="1-69">이것은 소전포타슘 80페이지를 포함한 트레스포터와의 미숙으로 인해서 발생할 수 있고 근이세뇨 간의 글루타미네이지 활성도가 낮으며 인의 배설륨 감소로 적정산 배설에 제약이 있기 때문입니다.</span> <span data-hl="1-69">이런 현상들은 이수가일수록 현저하고 생후 2세의 성인과 비슷한 수준으로 발달하게 됩니다.</span> <span data-hl="1-69">카시움과 인의 조절에 대해서 알아보겠습니다.</span></p>
   </div>
@@ -2392,8 +2394,7 @@
 </section>
 <section class="pair">
   <div class="slide">
-<h3 data-hl="4-8">1. Neonatal terminology and growth assessment Survival rates of newborn infant by gestational age (2002 ~ 2009)</h3><ul><li data-hl="4-8-5"><span data-hl="4-8-1">2002</span> <span data-hl="4-8-2">2007</span> <span data-hl="4-8-3">2009</span> 신생아 생존율을 재태주수에 따라 비교한 그림이다.</li><li data-hl="4-8-10">세로축은 Neonatal survival rate (%), 가로축은 Gestational age (weeks)이다.</li><li>해마다 생존율이 올랐고, 약 30주에도 95% 이상 생존한다.</li><li>10년 전 자료라 최근 생존율은 더 높다.</li><li data-hl="4-8-11">충처 : Neonata/ Med 2013 Amgust:20(3):249-257</li></ul><span data-hl="4-8-4" hidden></span><span data-hl="4-8-6" hidden></span><span data-hl="4-8-7" hidden></span><span data-hl="4-8-8" hidden></span><span data-hl="4-8-9" hidden></span>
-</div>
+<h3 data-hl="4-8">2002·2007·2009년 재태주수별 신생아 생존율</h3><p>2002년, 2007년, 2009년 생존율을 재태주수에 따라 비교하면 해마다 올랐다. 약 30주에도 95% 이상이 생존한다. 10년 전 자료라 최근 생존율은 더 높다.</p><p data-hl="4-8-11">출처: Neonatal Med. 2013 Aug;20(3):249-257.</p><span data-hl="4-8-5" hidden></span><span data-hl="4-8-1" hidden></span><span data-hl="4-8-2" hidden></span><span data-hl="4-8-3" hidden></span><span data-hl="4-8-10" hidden></span><span data-hl="4-8-4" hidden></span><span data-hl="4-8-6" hidden></span><span data-hl="4-8-7" hidden></span><span data-hl="4-8-8" hidden></span><span data-hl="4-8-9" hidden></span></div>
   <div class="talk">
 <p><span data-hl="4-8">이러한 미술가들의 생존율을 보시면 사실은 해마다 매우 증가해서 그런 미술가의 생존률이 크게 증가하고 있습니다.</span> <span data-hl="4-8">이 데이터를 보셔도 대략적으로 한 30주만 돼도 출생한 미술가의 95% 이상 생존하는 것을 보실 수 있고요.</span> <span data-hl="4-8">사실은 최근에 이게 10년 전 데이터이기 때문에 최근에는 훨씬 더 높은 생존률을 보이고 있습니다.</span></p>
   </div>
@@ -2465,8 +2466,7 @@
 </section>
 <section class="pair">
   <div class="slide">
-<h3 data-hl="4-17">1. Neonatal terminology and growth assessment</h3><ul><li data-hl="4-17-1">Fetal growth chart는 22주부터 50주까지 체중, 머리둘레, length를 보여 준다.</li><li>가운데 50% 곡선으로 성장 위치를 본다.</li><li>소아는 만 2세까지 누워서 재므로 length라고 부른다.</li></ul><span data-hl="4-17-2" hidden></span><span data-hl="4-17-3" hidden></span><span data-hl="4-17-4" hidden></span><span data-hl="4-17-5" hidden></span><span data-hl="4-17-6" hidden></span><span data-hl="4-17-7" hidden></span>
-</div>
+<h3 data-hl="4-17">미숙아 성장곡선은 22주부터 50주까지 본다</h3><p data-hl="4-17-1">미숙아는 22주부터 50주까지 주수별 체중, 머리둘레, length로 성장 위치를 본다. 만 2세까지는 누워서 재므로 length라고 부른다. 가운데 50% 곡선을 기준으로 지금 어디쯤인지 평가한다.</p><span data-hl="4-17-2" hidden></span><span data-hl="4-17-3" hidden></span><span data-hl="4-17-4" hidden></span><span data-hl="4-17-5" hidden></span><span data-hl="4-17-6" hidden></span><span data-hl="4-17-7" hidden></span></div>
   <div class="talk">
 <p><span data-hl="4-17">미술가 같은 경우에는 이러한 그로스 커브를 우리가 사용을 하고 있는데요.</span> <span data-hl="4-17">여기 보시면 22주부터 50주까지 주수별 평균적인 웨이트, 머리둘레 랭스를 보여주고 있습니다.</span> <span data-hl="4-17">소아는 보통 만 2세까지 누워서 키를 재기 때문에 랭스라고 표현을 하고 있는데요.</span> <span data-hl="4-17">여기 있는 50%의 중심 곡선을 기준으로 해서 내가 보고 있는 하나가 지금 어느 정도 성장 상태인지를 평가하실 수 있겠습니다.</span></p>
   </div>
@@ -2489,8 +2489,7 @@
 </section>
 <section class="pair">
   <div class="slide">
-<h3 data-hl="4-20">1. Neonatal terminology and growth assessment</h3><ul><li data-hl="4-20-1">34주에 태어났고, 체중과 length가 모두 10% 이하인 symmetric IUGR 성장곡선이다.</li><li data-hl="4-20-3">평가 항목으로 length, head circumference, weight가 표시되어 있다.</li></ul><span data-hl="4-20-2" hidden></span><span data-hl="4-20-4" hidden></span><span data-hl="4-20-5" hidden></span><span data-hl="4-20-6" hidden></span>
-</div>
+<h3 data-hl="4-20">34주 symmetric IUGR</h3><p data-hl="4-20-1">34주에 태어났고, 체중과 머리둘레·length가 모두 10% 아래로 벗어난 symmetric IUGR 성장곡선이다.</p><span data-hl="4-20-3" hidden></span><span data-hl="4-20-2" hidden></span><span data-hl="4-20-4" hidden></span><span data-hl="4-20-5" hidden></span><span data-hl="4-20-6" hidden></span></div>
   <div class="talk">
 <p><span data-hl="4-20">이 예시를 보시면 실제 저희 하나의 예시였는데요.</span> <span data-hl="4-20">출생 당시에 지금 34주로 태어났는데 여기 보시면 체중과 머리 랭스가 모두 10% 이하로 벗어나서 시메트릭한 IUGR을 보이는 하나의 성장 곡선이 되겠습니다.</span></p>
   </div>
@@ -2673,8 +2672,7 @@
 </section>
 <section class="pair">
   <div class="slide">
-<h3 data-hl="4-43">3. Carbohydrate Permissive Hyperglycemia in ELBW</h3><ul><li data-hl="4-43-1">Permissive hyperglycemia 군에서 칼로리를 더 줄 수 있었고, 그래서 growth velocity도 더 나았다.</li><li data-hl="4-43-6">그림은 calorie intake (kcal/kg/day)와 postnatal day를 그린다.</li></ul><span data-hl="4-43-2" hidden></span><span data-hl="4-43-3" hidden></span><span data-hl="4-43-4" hidden></span><span data-hl="4-43-5" hidden></span><span data-hl="4-43-7" hidden></span><span data-hl="4-43-8" hidden></span><span data-hl="4-43-9" hidden></span><span data-hl="4-43-10" hidden></span><span data-hl="4-43-11" hidden></span><span data-hl="4-43-12" hidden></span><span data-hl="4-43-13" hidden></span><span data-hl="4-43-14" hidden></span><span data-hl="4-43-15" hidden></span>
-</div>
+<h3 data-hl="4-43">Permissive hyperglycemia in ELBW</h3><p data-hl="4-43-1">혈당 기준을 높게 본 permissive hyperglycemia 군은 칼로리를 더 많이 줄 수 있었고, 그래서 다른 군보다 성장이 나았다.</p><span data-hl="4-43-6" hidden></span><span data-hl="4-43-2" hidden></span><span data-hl="4-43-3" hidden></span><span data-hl="4-43-4" hidden></span><span data-hl="4-43-5" hidden></span><span data-hl="4-43-7" hidden></span><span data-hl="4-43-8" hidden></span><span data-hl="4-43-9" hidden></span><span data-hl="4-43-10" hidden></span><span data-hl="4-43-11" hidden></span><span data-hl="4-43-12" hidden></span><span data-hl="4-43-13" hidden></span><span data-hl="4-43-14" hidden></span><span data-hl="4-43-15" hidden></span></div>
   <div class="talk">
 <p><span data-hl="4-43">그리고 아무래도 혈당 기준을 높게 보니까 이렇게 퍼미스브하게 봤던 그룹에서 칼로리를 조금 더 많이 줄 수 있더라 그리고 칼로리를 많이 주니까 역시 그로스에서 봤을 때 조금 더 다른 그룹보다 잘 크더라 라고 보고를 하면서</span></p>
   </div>
@@ -2836,9 +2834,7 @@
 </section>
 <section class="pair">
   <div class="slide">
-<h3 data-hl="4-62">4. Protein</h3>
-<ul><li data-hl="4-62-1">BUN</li><li data-hl="4-62-2">O Albumin, prealbumin</li><li data-hl="4-62-3">O Ammonia</li><li data-hl="4-62-4">O Arterial pH BUN reference values for human umbilical cord blood :<span data-hl="4-62-5" hidden></span><span data-hl="4-62-6" hidden></span></li><li data-hl="4-62-7">O Nitrogen balance</li><li data-hl="4-62-8">21.0 ~ 40.1 mg/dL</li><li data-hl="4-62-9">O Growth chemistr: (2nd ed), Saunders, Phiadelotia, PA (1994)<span data-hl="4-62-10" hidden></span></li></ul>
-</div>
+<h3 data-hl="4-62">단백질은 BUN으로 먼저 본다</h3><p>단백질을 줄 때 가장 바로 보는 지표는 <span data-hl="4-62-1">BUN</span>이다. 제대혈 BUN 참고치는 <span data-hl="4-62-8">21.0–40.1 mg/dL</span>이고, 미숙아도 태아 때 대략 20–40 mg/dL였다.</p><p>같이 보는 항목은 <span data-hl="4-62-2">albumin, prealbumin</span>, <span data-hl="4-62-3">ammonia</span>, <span data-hl="4-62-4">arterial pH</span>, <span data-hl="4-62-7">nitrogen balance</span>이다.</p><p data-hl="4-62-9">출처: Growth chemistry, 2nd ed., Saunders, Philadelphia, PA (1994).</p><span data-hl="4-62-5" hidden></span><span data-hl="4-62-6" hidden></span><span data-hl="4-62-10" hidden></span></div>
   <div class="talk">
 <p><span data-hl="4-62">우리가 단백질을 줄 때 모니터링을 가장 직관적으로 하고 있는 게 현재 BUN인데요.</span> <span data-hl="4-62">우리가 NICU 특히 미술가의 BUN에 대해서 조금 더 깊이 고민할 필요가 있습니다.</span> <span data-hl="4-62">실제로 코드블로드에서 BUN의 농도는 20에서 40 정도로 조금 높은 레벨을 유지하고 있습니다.</span> <span data-hl="4-62">그러니까 미숙아들이 태아인 상황에서는 이러한 BUN을 가지고 있었다는 얘기가 되겠고요.</span></p>
   </div>
@@ -6196,26 +6192,7 @@
 </section>
 <section class="pair">
   <div class="slide">
-<h3 data-hl="10-70">3. 영양재개 증후군 Refeeding syndrome</h3>
-<table>
-<tr data-hl="10-70-1"><th>Table 5. ASPEN Consetsus Criteria for Identilying Pediatric Patients at Risk for Refceding Syndrome &quot;Bth</th><th></th><th></th><th></th></tr>
-<tr data-hl="10-70-2"><td></td><td>Catcgonc Nepded Mild Kisk: 3 Risk</td><td>Moderale Risk:2 Risk Criteria Noeded</td><td>Signiieant Risk: 1 Risk</td></tr>
-<tr data-hl="10-70-3"><td>Weight-for-lengih</td><td>chunge from baseline</td><td>change from baseline</td><td>-3 z-score or grcater that is a chunge from buseline</td></tr>
-<tr data-hl="10-70-4"><td>Energy intake</td><td>3-5 consecutive days of protein c75% of worm for expected estimated nebd</td><td>sTconscoutive days of protein x7conscutive days of protcin weight gain or energy intake =75% of estimated need</td><td>or enengy intake c75% af</td></tr>
-<tr data-hl="10-70-5"><td>Abnormal prefceding serum polassium, phosphorus</td><td>Mildly abnormal or decreascd</td><td>abnormal or down lo</td><td>Moderatehy/signihicintly</td></tr>
-<tr data-hl="10-70-6"><td>conctnttations</td><td>normal</td><td></td><td>25%-50 below lower hmit</td></tr>
-<tr data-hl="10-70-7"><td>Higher-risk comorbiditics</td><td>Mild disease</td><td></td><td></td></tr>
-<tr data-hl="10-70-8"><td>(see Tatle 4)</td><td></td><td></td><td></td></tr>
-<tr data-hl="10-70-9"><td>Loss of subcutineous far</td><td>Evilence of mild loss</td><td>Evidence of moderate loss</td><td></td></tr>
-<tr data-hl="10-70-10"><td></td><td>OR</td><td>OR</td><td>OR</td></tr>
-<tr data-hl="10-70-11"><td></td><td>Mid-upper arm circumference</td><td>Mid-upner arm circumference</td><td>a-score of -3 or greater</td></tr>
-<tr data-hl="10-70-12"><td>Loss of muscle mass</td><td></td><td>Evidence of mild or moderate</td><td></td></tr>
-<tr data-hl="10-70-13"><td></td><td></td><td></td><td>Mid-upper arm circumference</td></tr>
-<tr data-hl="10-70-14"><td></td><td></td><td>Mid-upper arm circumfercnce</td><td>t-scort of -3 or greater</td></tr>
-<tr data-hl="10-70-15"><td>ASPEN, Ameriesn Society fot Parenteral atd Emtetal Nutrition; BML body mass index</td><td></td><td></td><td></td></tr>
-<tr data-hl="10-70-16"><td>출처: ASPE Consensis Rerommendations for Refeeaing srdrome. Nutr Clin Pract. 2020썛</td><td></td><td></td><td></td></tr>
-</table>
-  </div>
+<h3 data-hl="10-70">소아 리피딩 증후군 위험, ASPEN 2020</h3><p>소아는 경도(기준 3개), 중등도(기준 2개), significant(기준 1개)로 나눈다.</p><table><tr><th></th><th>경도, 기준 3개</th><th>중등도, 기준 2개</th><th>Significant, 기준 1개</th></tr><tr><td>키 대비 몸무게 z-score</td><td>기저치에서 변화</td><td>기저치에서 변화</td><td>기저에서 변한 −3 z-score 이상</td></tr><tr><td>에너지 섭취</td><td>3–5일 연속, 단백질 또는 에너지가 추정 필요량의 75% 미만</td><td colspan="2">연속된 날의 단백질·에너지 섭취를 추정 필요량의 75%와 비교</td></tr><tr><td>영양 전 칼륨·인</td><td>가볍게 비정상이거나 감소, 또는 정상</td><td>비정상이거나 더 낮아진 경우</td><td>중등도에서 현저히 낮고, 하한보다 25–50% 낮다</td></tr><tr><td>고위험 동반질환</td><td colspan="3">경도는 경한 질환</td></tr><tr><td>피하지방 감소</td><td>가벼운 감소. 또는 상완위 둘레</td><td>중등도 감소. 또는 상완위 둘레</td><td>상완위 둘레 z-score −3 이상</td></tr><tr><td>근육량 감소</td><td colspan="3">중등도는 경하거나 중등도 감소. significant는 상완위 둘레 z-score −3 이상</td></tr></table><p>출처: ASPEN Consensus Recommendations for Refeeding Syndrome. Nutr Clin Pract. 2020.</p><span data-hl="10-70-1" hidden></span><span data-hl="10-70-2" hidden></span><span data-hl="10-70-3" hidden></span><span data-hl="10-70-4" hidden></span><span data-hl="10-70-5" hidden></span><span data-hl="10-70-6" hidden></span><span data-hl="10-70-7" hidden></span><span data-hl="10-70-8" hidden></span><span data-hl="10-70-9" hidden></span><span data-hl="10-70-10" hidden></span><span data-hl="10-70-11" hidden></span><span data-hl="10-70-12" hidden></span><span data-hl="10-70-13" hidden></span><span data-hl="10-70-14" hidden></span><span data-hl="10-70-15" hidden></span><span data-hl="10-70-16" hidden></span></div>
   <div class="talk">
 
   </div>
@@ -7870,17 +7847,7 @@
 </section>
 <section class="pair">
   <div class="slide">
-<h3 data-hl="14-9">경장영양을 고려하는 기준</h3>
-<ul>
-<li>경구 섭취가 부족하다.</li>
-<li>10일 넘게 필요량의 60–80%를 채우지 못한다.</li>
-<li>장애 아동의 총 수유 시간이 하루 4–6시간을 넘는다.</li>
-<li>소모와 성장부전이 있다.</li>
-<li>2세가 넘은 아이에서 3개월 넘게 체중이 줄거나 늘지 않는다.</li>
-<li>삼두근 피부두겹이 연령의 5백분위 미만이다.</li>
-<li>키 속도가 1년에 0.3 SD보다 많이 줄거나, 사춘기 초·중기에 전년보다 1년에 2 cm 넘게 준다.</li>
-</ul>
-<p>출처: JPGN 2010;51:110-122.</p><span data-hl="14-9-1" hidden></span><span data-hl="14-9-2" hidden></span><span data-hl="14-9-3" hidden></span><span data-hl="14-9-4" hidden></span><span data-hl="14-9-5" hidden></span><span data-hl="14-9-6" hidden></span><span data-hl="14-9-7" hidden></span><span data-hl="14-9-8" hidden></span><span data-hl="14-9-9" hidden></span><span data-hl="14-9-10" hidden></span><span data-hl="14-9-11" hidden></span><span data-hl="14-9-12" hidden></span><span data-hl="14-9-13" hidden></span><span data-hl="14-9-14" hidden></span><span data-hl="14-9-15" hidden></span><span data-hl="14-9-16" hidden></span><span data-hl="14-9-17" hidden></span><span data-hl="14-9-18" hidden></span><span data-hl="14-9-19" hidden></span><span data-hl="14-9-20" hidden></span><span data-hl="14-9-21" hidden></span><span data-hl="14-9-22" hidden></span><span data-hl="14-9-23" hidden></span><span data-hl="14-9-24" hidden></span></div>
+<h3 data-hl="14-9">소아 영양 지원을 시작하는 기준</h3><p>경구 섭취가 부족할 때 영양 지원을 본다.</p><ul><li>10일을 넘겨 개인 필요량의 60–80%를 채우지 못한다.</li><li>부족이 예상되면 1세 이상은 5일 이내, 1세 미만은 3일 이내에 시작한다.</li><li>장애 아동은 하루 총 수유 시간이 4–6시간을 넘을 때다.</li></ul><p>소모와 성장부전은 이렇게 본다.</p><ul><li>2세 미만은 1개월을 넘겨 성장이나 체중 증가가 부적절하다.</li><li>2세 이상은 3개월을 넘겨 체중이 줄거나 늘지 않는다.</li><li>연령별 체중 성장곡선에서 2단계 이상 움직인다.</li><li>연령별 triceps skinfold가 계속 5백분위 미만이다.</li><li>신장 증가 속도가 1년에 0.3 SD보다 더 떨어진다.</li><li>사춘기 초기·중기에 전년보다 신장 증가 속도가 1년에 2 cm보다 더 준다.</li></ul><p data-hl="14-9-24">출처: JPGN 2010;51:110-122.</p><span data-hl="14-9-1" hidden></span><span data-hl="14-9-2" hidden></span><span data-hl="14-9-3" hidden></span><span data-hl="14-9-4" hidden></span><span data-hl="14-9-5" hidden></span><span data-hl="14-9-6" hidden></span><span data-hl="14-9-7" hidden></span><span data-hl="14-9-8" hidden></span><span data-hl="14-9-9" hidden></span><span data-hl="14-9-10" hidden></span><span data-hl="14-9-11" hidden></span><span data-hl="14-9-12" hidden></span><span data-hl="14-9-13" hidden></span><span data-hl="14-9-14" hidden></span><span data-hl="14-9-15" hidden></span><span data-hl="14-9-16" hidden></span><span data-hl="14-9-17" hidden></span><span data-hl="14-9-18" hidden></span><span data-hl="14-9-19" hidden></span><span data-hl="14-9-20" hidden></span><span data-hl="14-9-21" hidden></span><span data-hl="14-9-22" hidden></span><span data-hl="14-9-23" hidden></span></div>
   <div class="talk">
 
   </div>
@@ -8153,9 +8120,7 @@
 </section>
 <section class="pair">
   <div class="slide">
-<h3 data-hl="14-46">3. Enteral Formula Selection</h3>
-<ul><li data-hl="14-46-1">국내 시판 Modular</li><li data-hl="14-46-2">탄수화물, 단백질 또는 지방으로만 구성된 열량 보충 제품으로 음료 또는 식품에 첨가<span data-hl="14-46-3" hidden></span></li><li data-hl="14-46-4">2 Carbohydrate &amp; Fat Modular</li><li data-hl="14-46-5">가. 듀오칼 (400g/캔)</li><li data-hl="14-46-6">✓ 영양정보(1 g 당)</li><li data-hl="14-46-7">DUOCALE</li><li data-hl="14-46-8">- 열량: 4.92 kcal</li><li data-hl="14-46-9">- 탄수화물: 0.73 g</li><li data-hl="14-46-10">- 단백질: 0 g</li><li data-hl="14-46-11">- 지방: 0.22 g</li><li data-hl="14-46-12">✓ 원재료: 건조포도당시럽, 코코넛오일(야자유), 홍화유,유채유 등</li><li data-hl="14-46-13">✓ 사용량</li><li data-hl="14-46-14">- 영유아 사용시 조제유 100 cC당 1 g 으로 시작하여 하루 1 g씩</li><li data-hl="14-46-15">증량</li><li data-hl="14-46-16">- 6개월 미만: 조제유 100 cc당 최대 7g</li><li data-hl="14-46-17">- 6개월 이상: 조제유 100 cc당 최대 10 g</li></ul>
-</div>
+<h3 data-hl="14-46">듀오칼, 탄수화물·지방 모듈러</h3><p data-hl="14-46-1">모듈러는 탄수화물, 단백질, 또는 지방만으로 된 열량 보충제이고, 음료나 식품에 탄다.</p><p data-hl="14-46-4">탄수화물·지방 모듈러인 듀오칼(400 g/캔)은 1 g당 열량 <span data-hl="14-46-8">4.92 kcal</span>, 탄수화물 <span data-hl="14-46-9">0.73 g</span>, 단백질 <span data-hl="14-46-10">0 g</span>, 지방 <span data-hl="14-46-11">0.22 g</span>이다. 원재료는 건조포도당시럽, 코코넛오일, 홍화유, 유채유 등이다.</p><p>영유아는 조제유 100 cc당 <span data-hl="14-46-14">1 g</span>으로 시작해 하루에 1 g씩 올린다. 6개월 미만은 100 cc당 최대 <span data-hl="14-46-16">7 g</span>, 6개월 이상은 최대 <span data-hl="14-46-17">10 g</span>이다. 10 g까지 올리면 100 cc당 약 49 kcal가 더해진다.</p><span data-hl="14-46-2" hidden></span><span data-hl="14-46-3" hidden></span><span data-hl="14-46-5" hidden></span><span data-hl="14-46-6" hidden></span><span data-hl="14-46-7" hidden></span><span data-hl="14-46-12" hidden></span><span data-hl="14-46-13" hidden></span><span data-hl="14-46-15" hidden></span></div>
   <div class="talk">
 <p><span data-hl="14-46">두 번째는 카보아이트와 지방을 다 같이 줄 수 있는 모듈러입니다.</span> <span data-hl="14-46">듀오칼이라는 제품이 있고요</span> <span data-hl="14-46-8">1g당 열량 4.92칼로리</span> <span data-hl="14-46">아까보다 조금 높죠 왜냐하면 지방을 가지고 있기 때문에 그렇습니다 소아청소년 사용방법을 보시면</span> <span data-hl="14-46-14">아까 비슷하게 조절 100cc당 1g으로 사용해서</span> <span data-hl="14-46">조금씩 증량을 하면 되고요</span> <span data-hl="14-46-16">7개월 미만일 경우에는 최대가 100cc당 7g</span> <span data-hl="14-46-17">6개월 이상일 경우에는 최대가 10g 정도까지 증량을 해볼 수 있습니다 따라서 만약에 10g까지 증량을 한다고 했을 때는 이게 10배니까 한 49kcal 정도 100cc당 더 높여 볼 수가 있는 거죠.</span></p>
   </div>
@@ -8323,24 +8288,7 @@
 </section>
 <section class="pair">
   <div class="slide">
-<h3 data-hl="14-70">5. Complications of EN</h3>
-<table>
-<tr data-hl="14-70-1"><th>Technical complications</th><th></th><th></th><th></th><th></th></tr>
-<tr data-hl="14-70-2"><td>O Long-term complications of gastrostomy and enterostomy tubes (위루 및 장루 관의 장기 합병증)</td><td></td><td></td><td></td><td></td></tr>
-<tr data-hl="14-70-3"><td></td><td></td><td>Complications</td><td></td><td></td></tr>
-<tr data-hl="14-70-4"><td>Tube-related</td><td>Plugging (관 뽑기)</td><td></td><td>See Upper page</td><td>See Upper page (앞 페이지 참조)</td></tr>
-<tr data-hl="14-70-5"><td>(관 관련한)</td><td>Broken tube or leakage</td><td></td><td>(맢 페이지 참조)</td><td>Replace tube (관 교체)</td></tr>
-<tr data-hl="14-70-6"><td></td><td>(관 파손 혹은 누슬)</td><td></td><td></td><td>Avoid excessive tension (과도한 텐션 피하기)</td></tr>
-<tr data-hl="14-70-7"><td></td><td>Buried bumper(배설 펌써)</td><td></td><td></td><td>Replace immediately (즉시 교체)</td></tr>
-<tr data-hl="14-70-8"><td></td><td>Dislodgement (이탈)</td><td></td><td></td><td>Correct pasitioning (위치 수정)</td></tr>
-<tr data-hl="14-70-9"><td></td><td>Migration (이동)</td><td></td><td></td><td></td></tr>
-<tr data-hl="14-70-10"><td>Locel initation</td><td>Pain arouind site (위치 주위 통증)</td><td></td><td>Tight fixation, infection</td><td>Check fixation and treat infection (고정 확인 및 감염치료)</td></tr>
-<tr data-hl="14-70-11"><td>(국소 자극)</td><td>Skin irritation (피부 자극)</td><td></td><td>(꽉 단단한 고정, 감염)</td><td>Check fixation. use PPI (고정 확인 및 PPI 사용)</td></tr>
-<tr data-hl="14-70-12"><td></td><td>Granulation tissue (육아 조직)</td><td></td><td>(꽉 단단한 고정, 두춘) Tight fixation, leakage</td><td>Siver nitrate cautenization (질산은 소작)</td></tr>
-<tr data-hl="14-70-13"><td></td><td>Site bleeding (부위 털)</td><td></td><td>Tube friction (관 마찰)</td><td>Local care. PPI (부위 관리. PPI)</td></tr>
-<tr data-hl="14-70-14"><td></td><td></td><td></td><td></td><td>Apply topical hexacaprone (국소 지혈제. 헥사카프론 도포)</td></tr>
-</table>
-  </div>
+<h3 data-hl="14-70">위루·장루 관의 장기 합병증</h3><p>막힘은 앞 페이지의 원인과 처치를 따른다. 파손이나 누출은 관을 바꾼다. 매몰 범퍼는 과도한 장력으로 생기고, 장력을 피하며 생기면 즉시 바꾼다. 이탈은 위치를 바로잡는다. 이동도 관 합병증에 들어 있다.</p><p>부위 통증은 너무 조인 고정이나 감염이 원인이라, 고정을 확인하고 감염을 치료한다. 피부 자극은 고정을 확인하고 PPI를 쓴다. 육아 조직은 너무 조인 고정과 누출이 원인이라 질산은으로 소작한다. 부위 출혈은 관 마찰이 원인이라, 국소 관리와 PPI를 하고 헥사카프론을 바른다.</p><span data-hl="14-70-1" hidden></span><span data-hl="14-70-2" hidden></span><span data-hl="14-70-3" hidden></span><span data-hl="14-70-4" hidden></span><span data-hl="14-70-5" hidden></span><span data-hl="14-70-6" hidden></span><span data-hl="14-70-7" hidden></span><span data-hl="14-70-8" hidden></span><span data-hl="14-70-9" hidden></span><span data-hl="14-70-10" hidden></span><span data-hl="14-70-11" hidden></span><span data-hl="14-70-12" hidden></span><span data-hl="14-70-13" hidden></span><span data-hl="14-70-14" hidden></span></div>
   <div class="talk">
 
   </div>
@@ -8354,17 +8302,14 @@
 </section>
 <section class="pair">
   <div class="slide">
-<h3 data-hl="14-72">5. Complications of EN</h3>
-<ul><li data-hl="14-72-1">Technical complications</li><li data-hl="14-72-2">Long-term complications of gastrostomy and enterostomy tubes (위루 및 장루 관의 장기 합병증)</li><li data-hl="14-72-3">Complications</li><li data-hl="14-72-4">Cause</li><li data-hl="14-72-5">Prevention/treatment</li><li data-hl="14-72-6">Locar infection Purulent discharge (화농분비물)</li><li data-hl="14-72-7">Cleaning and topical antibiotics (세척 및 국소 항생제) (국소 감염) cellulitis, peristomal abscess (연조직염.<span data-hl="14-72-8" hidden></span><span data-hl="14-72-9" hidden></span></li><li data-hl="14-72-10">Give systemic antibiotics (전신 항생제 투여)</li><li data-hl="14-72-11">관 주변부 농양)</li><li data-hl="14-72-12">Stoma-related Enlarged stoma site (장루 부위 커짐)</li><li data-hl="14-72-13">Large wall incision</li><li data-hl="14-72-14">Use smaller tube sizes (더 작은 사이즈 관 사용) (장루 관련)<span data-hl="14-72-15" hidden></span></li><li data-hl="14-72-16">Leakage of nutrients or gastric juice (위장벽 절게 큼)<span data-hl="14-72-17" hidden></span></li><li data-hl="14-72-18">Use smaller tube size, stop feeding and PN (더 작은 (영양맥 혹은 위액 누툼)<span data-hl="14-72-19" hidden></span></li><li data-hl="14-72-20">Large stoma (장루가 큼)</li><li data-hl="14-72-21">사이즈 관 사용, 피딩 중단)</li><li data-hl="14-72-22">After remoyal Enterocutaneous fistula (장피성 누공)</li><li data-hl="14-72-23">Give conservative and surgical treatment if needed</li><li data-hl="14-72-24">Retention of internal bumper (체내 범퍼 (필요할 경우 보존적/외과적 치료 진행)<span data-hl="14-72-25" hidden></span></li><li data-hl="14-72-26">보류)</li><li data-hl="14-72-27">Remove by endoscopy (내시경으로 제거)</li><li data-hl="14-72-28">출처: JPGN 2010:51:110-122</li></ul>
-</div>
+<h3 data-hl="14-72">위루·장루의 감염과 장루 합병증</h3><p>국소 감염에서 화농 분비물은 세척과 국소 항생제로 다루고, 연조직염과 장루 주위 농양은 전신 항생제를 쓴다.</p><p>장루 부위가 커진 원인은 위벽 절개가 큰 것이고, 더 작은 관으로 바꾼다. 영양액이나 위액이 새는 원인은 장루가 큰 것이고, 더 작은 관으로 바꾸고 경장을 멈추며 정맥영양으로 넘긴다.</p><p>제거 뒤에는 장피 누공이 있으면 필요 시 보존 치료나 수술을 하고, 체내 범퍼가 남으면 내시경으로 뺀다.</p><p data-hl="14-72-28">출처: JPGN 2010;51:110-122.</p><span data-hl="14-72-1" hidden></span><span data-hl="14-72-2" hidden></span><span data-hl="14-72-3" hidden></span><span data-hl="14-72-4" hidden></span><span data-hl="14-72-5" hidden></span><span data-hl="14-72-6" hidden></span><span data-hl="14-72-7" hidden></span><span data-hl="14-72-8" hidden></span><span data-hl="14-72-9" hidden></span><span data-hl="14-72-10" hidden></span><span data-hl="14-72-11" hidden></span><span data-hl="14-72-12" hidden></span><span data-hl="14-72-13" hidden></span><span data-hl="14-72-14" hidden></span><span data-hl="14-72-15" hidden></span><span data-hl="14-72-16" hidden></span><span data-hl="14-72-17" hidden></span><span data-hl="14-72-18" hidden></span><span data-hl="14-72-19" hidden></span><span data-hl="14-72-20" hidden></span><span data-hl="14-72-21" hidden></span><span data-hl="14-72-22" hidden></span><span data-hl="14-72-23" hidden></span><span data-hl="14-72-24" hidden></span><span data-hl="14-72-25" hidden></span><span data-hl="14-72-26" hidden></span><span data-hl="14-72-27" hidden></span></div>
   <div class="talk">
 <p><span data-hl="14-72">최고 합병증이 발생할 수 있는데요.</span></p>
   </div>
 </section>
 <section class="pair">
   <div class="slide">
-<h3 data-hl="14-73">5. Complications of EN</h3><ul><li data-hl="14-73-2">O Long-term complications of gastrostomy and enterostomy tubes (위루 및 장루 관의 장기 합병증)</li><li data-hl="14-73-6">Tube telated plugging (관 뽑기) Broken tube or leakage (관 파손 혹은 누출) Buried bumper (매설 펌퍼) Dislodgement (이탈) Migration (이동) Local irritation Pain around site (위치 주위 통증) (국소 자극) Skin irritation (피부 자극) Check fixation, use PPI (고정 확인 및 PPI 사용) Silver nitrate cauterization (질산은 소작)</li><li data-hl="14-73-8">See Upper page See Upper page (앞 페이지 참조) (앞 페이지 참조) Replace tube (관 교체) Avoid excessive tension (과도한 텐션 피하기) Replace immediately (즉시 교체) Correct positioning (위치 수정) Check fixation and treat infection (고정 확인 및 감염치료) (꽉단단한 고정, 감염) Tight fixation, leakage Tube friction (관 마찰) Local care, PPI (부위 관리, PPI)</li><li>일단 여러 가지 합병증을 한번 보시면 좋을 것 같고 관 관련해서 버리드 범퍼가 컴플리케이션이 발생할 수 있는데요.</li></ul><span data-hl="14-73-1" hidden></span><span data-hl="14-73-3" hidden></span><span data-hl="14-73-4" hidden></span><span data-hl="14-73-5" hidden></span><span data-hl="14-73-7" hidden></span><span data-hl="14-73-9" hidden></span><span data-hl="14-73-10" hidden></span><span data-hl="14-73-11" hidden></span><span data-hl="14-73-12" hidden></span><span data-hl="14-73-13" hidden></span><span data-hl="14-73-14" hidden></span><span data-hl="14-73-15" hidden></span><span data-hl="14-73-16" hidden></span><span data-hl="14-73-17" hidden></span><span data-hl="14-73-18" hidden></span><span data-hl="14-73-19" hidden></span><span data-hl="14-73-20" hidden></span><span data-hl="14-73-21" hidden></span><span data-hl="14-73-22" hidden></span><span data-hl="14-73-23" hidden></span><span data-hl="14-73-24" hidden></span><span data-hl="14-73-25" hidden></span><span data-hl="14-73-26" hidden></span><span data-hl="14-73-27" hidden></span><span data-hl="14-73-28" hidden></span><span data-hl="14-73-29" hidden></span><span data-hl="14-73-30" hidden></span><span data-hl="14-73-31" hidden></span><span data-hl="14-73-32" hidden></span><span data-hl="14-73-33" hidden></span><span data-hl="14-73-34" hidden></span><span data-hl="14-73-35" hidden></span><span data-hl="14-73-36" hidden></span>
-</div>
+<h3 data-hl="14-73">위루관을 오래 쓰면 매몰 범퍼를 포함한 합병증이 생긴다</h3><p>매몰 범퍼는 과도한 장력으로 생기고, 장력을 피하며 생기면 즉시 바꾼다. 막힘은 앞 페이지를 따른다. 파손이나 누출은 관을 바꾸고, 이탈은 위치를 바로잡는다. 이동도 관 합병증에 들어 있다.</p><p>부위 통증은 너무 조인 고정이나 감염이 원인이라, 고정을 확인하고 감염을 치료한다. 피부 자극은 고정을 확인하고 PPI를 쓴다. 육아 조직은 너무 조인 고정과 누출이 원인이라 질산은으로 소작한다. 부위 출혈은 관 마찰이 원인이라 국소 관리와 PPI로 다룬다.</p><span data-hl="14-73-2" hidden></span><span data-hl="14-73-6" hidden></span><span data-hl="14-73-8" hidden></span><span data-hl="14-73-1" hidden></span><span data-hl="14-73-3" hidden></span><span data-hl="14-73-4" hidden></span><span data-hl="14-73-5" hidden></span><span data-hl="14-73-7" hidden></span><span data-hl="14-73-9" hidden></span><span data-hl="14-73-10" hidden></span><span data-hl="14-73-11" hidden></span><span data-hl="14-73-12" hidden></span><span data-hl="14-73-13" hidden></span><span data-hl="14-73-14" hidden></span><span data-hl="14-73-15" hidden></span><span data-hl="14-73-16" hidden></span><span data-hl="14-73-17" hidden></span><span data-hl="14-73-18" hidden></span><span data-hl="14-73-19" hidden></span><span data-hl="14-73-20" hidden></span><span data-hl="14-73-21" hidden></span><span data-hl="14-73-22" hidden></span><span data-hl="14-73-23" hidden></span><span data-hl="14-73-24" hidden></span><span data-hl="14-73-25" hidden></span><span data-hl="14-73-26" hidden></span><span data-hl="14-73-27" hidden></span><span data-hl="14-73-28" hidden></span><span data-hl="14-73-29" hidden></span><span data-hl="14-73-30" hidden></span><span data-hl="14-73-31" hidden></span><span data-hl="14-73-32" hidden></span><span data-hl="14-73-33" hidden></span><span data-hl="14-73-34" hidden></span><span data-hl="14-73-35" hidden></span><span data-hl="14-73-36" hidden></span></div>
   <div class="talk">
 <p><span data-hl="14-73">일단 여러 가지 합병증을 한번 보시면 좋을 것 같고 관 관련해서 버리드 범퍼가 컴플리케이션이 발생할 수 있는데요.</span></p>
   </div>
@@ -11122,29 +11067,45 @@
       if (i === at) break;
       from = i + 1;
     }
-    return { text: text, pre: pre, post: post, n: n || 1 };
+    return { text: text, pre: pre, post: post, n: n || 1, at: Date.now() };
+  }
+
+  function findNth(text, want) {
+    if (!text || want < 1) return null;
+    var from = 0;
+    var seen = 0;
+    while (from < index.full.length) {
+      var i = index.full.indexOf(text, from);
+      if (i < 0) return null;
+      seen++;
+      if (seen === want) return [i, i + text.length];
+      var next = i + 1;
+      if (next <= from) return null;
+      from = next;
+    }
+    return null;
   }
 
   function resolve(a) {
-    if (!a || !a.text) return null;
+    if (!a || !a.text || a.deleted) return null;
     var needle = (a.pre || "") + a.text + (a.post || "");
     var want = a.n || 1;
     var from = 0;
     var seen = 0;
     while (from < index.full.length) {
       var i = index.full.indexOf(needle, from);
-      if (i < 0) return null;
+      if (i < 0) break;
       seen++;
       if (seen === want) {
         var s = i + (a.pre || "").length;
-        if (index.full.slice(s, s + a.text.length) !== a.text) return null;
-        return [s, s + a.text.length];
+        if (index.full.slice(s, s + a.text.length) === a.text) return [s, s + a.text.length];
       }
       var next = i + 1;
       if (next <= from) return null;
       from = next;
     }
-    return null;
+    if (!findNth(a.text, 1) || findNth(a.text, 2)) return null;
+    return findNth(a.text, 1);
   }
 
   function pairs() {
@@ -11199,6 +11160,22 @@
     return true;
   }
 
+  function renderLost(lost) {
+    var box = document.getElementById("lostmarks");
+    if (!box) return;
+    while (box.firstChild) box.removeChild(box.firstChild);
+    if (!lost.length) return;
+    var title = document.createElement("p");
+    title.className = "lost-title";
+    title.textContent = "본문이 바뀌어 위치를 못 찾은 표시";
+    box.appendChild(title);
+    for (var i = 0; i < lost.length; i++) {
+      var p = document.createElement("p");
+      p.textContent = String(lost[i].text || "").replace(/\s+/g, " ").trim();
+      box.appendChild(p);
+    }
+  }
+
   function paintMarks() {
     var ranges = [];
     var list = pairs();
@@ -11208,7 +11185,20 @@
     }
     var ok = setHighlight("user-mark", ranges);
     var note = document.getElementById("markcount");
-    if (note) note.textContent = saved.length ? (saved.length + "곳 저장") : "";
+    var live = [];
+    var lost = [];
+    for (var j = 0; j < saved.length; j++) {
+      var mark = saved[j];
+      if (!mark || !mark.text || mark.deleted) continue;
+      live.push(mark);
+      if (!resolve(mark)) lost.push(mark);
+    }
+    if (note) {
+      if (!live.length) note.textContent = "";
+      else if (lost.length) note.textContent = (live.length - lost.length) + "곳 표시, " + lost.length + "곳은 문장이 바뀜";
+      else note.textContent = live.length + "곳 표시";
+    }
+    renderLost(lost);
     var pen = document.getElementById("pen");
     if (pen && !ok) pen.disabled = true;
     return ok;
@@ -11286,11 +11276,41 @@
   }
 
   function replaceSaved(list) {
-    var dropped = [];
-    for (var j = 0; j < saved.length; j++) if (!resolve(saved[j])) dropped.push(saved[j]);
     var merged = merge(list);
-    saved = dropped;
-    for (var i = 0; i < merged.length; i++) saved.push(makeAnchor(merged[i][0], merged[i][1]));
+    var tombstones = [];
+    var unresolved = [];
+    for (var j = 0; j < saved.length; j++) {
+      var mark = saved[j];
+      if (!mark || !mark.text) continue;
+      if (mark.deleted) { tombstones.push(mark); continue; }
+      var at = resolve(mark);
+      if (!at) { unresolved.push(mark); continue; }
+      var covered = false;
+      for (var k = 0; k < merged.length; k++) {
+        if (merged[k][0] === at[0] && merged[k][1] === at[1]) { covered = true; break; }
+      }
+      if (!covered) tombstones.push(Object.assign({}, mark, { deleted: true, at: Date.now() }));
+    }
+    var fresh = [];
+    for (var i = 0; i < merged.length; i++) fresh.push(makeAnchor(merged[i][0], merged[i][1]));
+    var live = [];
+    var seenLive = {};
+    var pool = unresolved.concat(fresh);
+    for (var a = 0; a < pool.length; a++) {
+      var id = markIdentity(pool[a]);
+      if (seenLive[id]) continue;
+      seenLive[id] = 1;
+      live.push(pool[a]);
+    }
+    var seenDead = {};
+    var dead = [];
+    for (var t = 0; t < tombstones.length; t++) {
+      var deadId = markIdentity(tombstones[t]);
+      if (seenLive[deadId] || seenDead[deadId]) continue;
+      seenDead[deadId] = 1;
+      dead.push(Object.assign({}, tombstones[t], { deleted: true }));
+    }
+    saved = live.concat(dead);
     store();
     paintMarks();
     if (hits.length) paintSearch();
@@ -11536,15 +11556,30 @@
     catch (e) { return {}; }
   }
   function markKey(mark) {
-    return [mark.pre || "", mark.text || "", mark.post || "", mark.n || 1].join("\n");
+    return [mark.text || "", mark.pre || "", mark.post || "", mark.n || 1].join("\n");
   }
-  function union(a, b) {
+  function unionMarks(primary, extra) {
     var map = new Map();
-    a.concat(b).forEach(function (mark) {
-      if (mark && mark.text) map.set(markKey(mark), mark);
-    });
+    function put(mark) {
+      if (!mark || !mark.text) return;
+      var key = markKey(mark);
+      var prev = map.get(key);
+      if (!prev || (mark.at || 0) >= (prev.at || 0)) map.set(key, mark);
+    }
+    (extra || []).forEach(put);
+    (primary || []).forEach(put);
     return Array.from(map.values());
   }
+  function sameMarkList(a, b) {
+    if (!a || !b || a.length !== b.length) return false;
+    var keys = {};
+    for (var i = 0; i < a.length; i++) keys[markKey(a[i]) + (a[i].deleted ? "\tdeleted" : "")] = 1;
+    for (var j = 0; j < b.length; j++) {
+      if (!keys[markKey(b[j]) + (b[j].deleted ? "\tdeleted" : "")]) return false;
+    }
+    return true;
+  }
+  var pushing = false;
   function digest(text) {
     return crypto.subtle.digest("SHA-256", new TextEncoder().encode("pn-lecture:" + text)).then(function (buf) {
       return Array.from(new Uint8Array(buf)).map(function (b) {
@@ -11562,49 +11597,29 @@
       document.head.appendChild(script);
     });
   }
+  function statusLine(marks) {
+    var live = (marks || []).filter(function (m) { return m && m.text && !m.deleted; }).length;
+    var code = codeInput ? codeInput.value : "";
+    return (live ? ("표시 " + live + "곳. ") : "표시 없음. ") + (code ? ("코드 " + code) : "");
+  }
+  function reconcile(remote) {
+    var local = localMarks();
+    var localList = Array.isArray(local.marks) ? local.marks : [];
+    var remoteList = Array.isArray(remote && remote.marks) ? remote.marks : [];
+    var merged = unionMarks(localList, remoteList);
+    var now = Date.now();
+    if (!sameMarkList(merged, localList) && window.__adrReplaceMarks) {
+      window.__adrReplaceMarks(merged, Math.max(local.at || 0, remote && remote.at || 0, now));
+    }
+    if (!sameMarkList(merged, remoteList) && window.__adrPushMarks) window.__adrPushMarks(merged, now);
+    setState(statusLine(merged));
+  }
   function pull() {
     if (!client || !hash) return;
     client.rpc("adr_get_marks", { code_hash: hash }).then(function (res) {
       if (!res || res.error || !res.data) return;
-      var local = localMarks();
-      var localAt = local.at || 0;
-      if ((res.data.at || 0) > localAt && window.__adrReplaceMarks) {
-        window.__adrReplaceMarks(res.data.marks || [], res.data.at);
-        setState("다른 컴퓨터의 표시를 가져왔습니다");
-      }
+      reconcile(res.data);
     });
-  }
-  function reconcile(remote) {
-    var local = localMarks();
-    var localAt = local.at || 0;
-    var localList = Array.isArray(local.marks) ? local.marks : [];
-    var remoteList = Array.isArray(remote.marks) ? remote.marks : [];
-    var remoteAt = remote.at || 0;
-    if (!localList.length && remoteAt) {
-      if (window.__adrReplaceMarks) window.__adrReplaceMarks(remoteList, remoteAt);
-      setState("저장된 표시를 가져왔습니다");
-      return;
-    }
-    if (localList.length && !remoteAt) {
-      var at = localAt || Date.now();
-      if (window.__adrPushMarks) window.__adrPushMarks(localList, at);
-      return;
-    }
-    if (remoteAt > localAt && localAt > 0) {
-      if (window.__adrReplaceMarks) window.__adrReplaceMarks(remoteList, remoteAt);
-      setState("다른 컴퓨터의 표시를 가져왔습니다");
-      return;
-    }
-    if (localAt > remoteAt && localList.length) {
-      if (window.__adrPushMarks) window.__adrPushMarks(localList, localAt);
-      return;
-    }
-    if (!localAt && localList.length && remoteList.length) {
-      var merged = union(localList, remoteList);
-      var now = Date.now();
-      if (window.__adrReplaceMarks) window.__adrReplaceMarks(merged, now);
-      if (window.__adrPushMarks) window.__adrPushMarks(merged, now);
-    }
   }
   function connect(code) {
     code = (code || "").trim();
@@ -11640,13 +11655,22 @@
   }
 
   window.__adrPushMarks = function (marks, at) {
-    if (!client || !hash) return;
+    if (!client || !hash || pushing) return;
+    pushing = true;
     client.rpc("adr_put_marks", { p_hash: hash, p_marks: marks, p_at: at }).then(function (res) {
-      if (!res || res.error) { setState("저장하지 못했습니다"); return; }
+      pushing = false;
+      if (!res || res.error) { setState("저장하지 못했습니다. 이 브라우저에는 남습니다"); return; }
       var row = res.data || {};
-      if (row.at && row.at > at && window.__adrReplaceMarks) window.__adrReplaceMarks(row.marks || [], row.at);
+      var remoteList = Array.isArray(row.marks) ? row.marks : [];
+      var local = localMarks();
+      var localList = Array.isArray(local.marks) ? local.marks : [];
+      var merged = unionMarks(localList, remoteList);
+      if (!sameMarkList(merged, localList) && window.__adrReplaceMarks) window.__adrReplaceMarks(merged, row.at || at);
       if (channel) channel.send({ type: "broadcast", event: "marks", payload: { at: row.at || at } });
-      setState("맞춰 두었습니다");
+      setState(statusLine(merged));
+    }).catch(function () {
+      pushing = false;
+      setState("저장하지 못했습니다. 이 브라우저에는 남습니다");
     });
   };
 
@@ -11670,8 +11694,12 @@
   }
   var savedCode = "";
   try { savedCode = localStorage.getItem(CODE_KEY) || ""; } catch (e) {}
-  if (savedCode) connect(savedCode);
-  else setState("코드를 넣으면 다른 컴퓨터의 형광과 맞춰집니다");
+  if (!savedCode || savedCode.length < 4) {
+    savedCode = newCode();
+    try { localStorage.setItem(CODE_KEY, savedCode); } catch (e) {}
+  }
+  if (codeInput) codeInput.value = savedCode;
+  connect(savedCode);
 })();
 
 </script>
