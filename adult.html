@@ -70,7 +70,7 @@
 
   .pair {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
     gap: 5mm 8mm;
     align-items: start;
     margin: 0 0 8mm;
@@ -335,6 +335,36 @@
     ::highlight(search-hit), ::highlight(search-now) { background-color: transparent; }
     .slide [data-hl].hot, .talk [data-hl].hot { background: transparent; box-shadow: none; }
   }
+  .slide.shot .frame { width: max-content; max-width: 100%; }
+  .slide.shot .frame img { width: auto; max-width: 100%; height: auto; image-rendering: auto; }
+  .slide-zoom-trigger {
+    position: absolute; z-index: 2; top: 8px; right: 8px;
+    padding: 6px 10px; border: 1px solid rgba(255,255,255,.55); border-radius: 6px;
+    color: #fff; background: rgba(16,40,77,.9); font: 600 13px/1.2 sans-serif; cursor: zoom-in;
+  }
+  .slide-zoom {
+    width: min(96vw, 1800px); max-width: 96vw; height: min(92vh, 1200px); max-height: 92vh;
+    padding: 0; border: 0; border-radius: 10px; color: #fff; background: #10141a; overflow: hidden;
+  }
+  .slide-zoom::backdrop { background: rgba(0,0,0,.84); }
+  .slide-zoom-toolbar {
+    height: 48px; display: flex; align-items: center; justify-content: flex-end; gap: 8px;
+    padding: 6px 10px; background: #1b2430; font: 14px/1.2 sans-serif;
+  }
+  .slide-zoom-toolbar button {
+    min-width: 40px; padding: 6px 10px; border: 1px solid #536173; border-radius: 5px;
+    color: #fff; background: #2b394b; font: inherit; cursor: pointer;
+  }
+  .slide-zoom-toolbar button:focus-visible, .slide-zoom-trigger:focus-visible { outline: 3px solid #ffcc55; outline-offset: 2px; }
+  .slide-zoom-scale { min-width: 4em; text-align: center; }
+  .slide-zoom-viewport { width: 100%; height: calc(92vh - 48px); overflow: auto; background: #080b10; }
+  .slide-zoom-image { display: block; max-width: none !important; height: auto; }
+  @media (max-width: 760px) {
+    .pair { grid-template-columns: minmax(0, 1fr); gap: 1rem; }
+    .slide-zoom { width: 96vw; height: 92vh; }
+    .slide-zoom-viewport { height: calc(92vh - 48px); }
+  }
+  @media print { .slide-zoom-trigger, .slide-zoom { display: none !important; } }
 </style>
 </head>
 <body>
@@ -947,7 +977,7 @@
 <tr data-hl="1-58-4"><td>* Vary in osmolarity depending on concentration</td><td></td><td></td><td></td></tr>
 <tr data-hl="1-58-5"><td>* High concentration (&gt;10%) are generally reserved though</td><td></td><td></td><td></td></tr>
 <tr data-hl="1-58-6"><td>central vein : case thrombophlebitis in peripheral veins</td><td></td><td></td><td></td></tr>
-<tr data-hl="1-58-7"><td></td><td>Solution</td><td>Osmolarity (m0sm)</td><td></td></tr>
+<tr data-hl="1-58-7"><td></td><td>Solution</td><td>Osmolarity (mOsm)</td><td></td></tr>
 <tr data-hl="1-58-8"><td></td><td>Dextrose 5%</td><td></td><td>253</td></tr>
 <tr data-hl="1-58-9"><td></td><td>Dextrose 10%</td><td></td><td>505</td></tr>
 <tr data-hl="1-58-10"><td></td><td>Dextrose 20%</td><td></td><td>1,010</td></tr>
@@ -2264,7 +2294,7 @@
 <ul><li data-hl="2-86-1">제 1세대에서 제 4세대에 이르는 다양한 정맥용 지질은</li><li data-hl="2-86-2">필수지방산 결핍 예방과 주요 비단백열량원으로서의 역할뿐</li><li data-hl="2-86-3">01 아니라 염증관련 물질과 이로 인한 면역에 대한 영향을</li><li data-hl="2-86-4">생물학적 세부 기전에 대한 연구와 이해로 그 기능과 역할이</li><li data-hl="2-86-5">더욱 뚜렷해졌으며 이를 근거로 임상에서 적용할 수 있다.</li><li data-hl="2-86-6">정맥용 지질의 임상연구 결과에 대한 국가간 지침의 차이가</li><li data-hl="2-86-7">02 감소하였으며 이를 바탕으로 투여 계획의 근거를 확보한다.</li><li data-hl="2-86-8">상기 내용을 숙지하여 정맥용 지질의 투여 목적. 접근성, 투여의</li><li data-hl="2-86-9">03 편리성, 임상연구 결과에 대한 여러 근거, 환자의 임상 양상을</li><li data-hl="2-86-10">고려하여 전문가로서의 종합적 판단을 할 수 있도록 한다.</li></ul>
   </div></div>
   <div class="talk">
-<p><span data-hl="2-86">오늘 저희가 영양양료 심화에서 지질이라는 하나의 성분에 대해서 살펴보았습니다.</span> <span data-hl="2-86-1">어찌 보면 1세대에서 4세대의 리드까지 이미 사실은 다양한 정맥용 지질에 대해서</span> <span data-hl="2-86">기본적인 펑셔널 어스펙들은 다 아실 텐데요.</span> <span data-hl="2-86">이걸 영양소로서의 역할과 스라이프틱 롤이라는 두 가지를 모두 다 만족하기 위해서</span> <span data-hl="2-86">실제로 우리가 현장에서 그것을 고려한 지질의 용량과 투여 속도를 계획하고 있는 것들인지</span> <span data-hl="2-86">그런 것들에 대한 근거들이 많이 나와 있는데 우리가 그런 근거들을 확인하고 있는지</span> <span data-hl="2-86-7">그리고 이미 나와 있는 어떤 미국, 유럽 등 다양한 국가 간의 지침들의 차이가 이전보다 감소하였는데 왜 그런지</span> <span data-hl="2-86-7">혹은 이런 것들을 바탕으로 예전에 나온 지침들을 새롭게 해석하고 볼 수 있는지</span> <span data-hl="2-86-10">따라서 정맥 영향, 임상 영향을 담당하는 약자로서 좀 더 근거를 가지고 종합적인 판단을 할 수 있는지</span> <span data-hl="2-86">이런 것들을 살펴보고자 하였고요.</span> <span data-hl="2-86">오늘 저랑 한 2시간 정도 지질에 대해서 살펴보았는데</span> <span data-hl="2-86">해당 내용을 통해서 실제로 정맥 영양에서 좀 더 근거를 가지고</span> <span data-hl="2-86">근거에 기반한 안전하고 효과적인 정맥 영양요법을 하시는데 도움이 되었으면 합니다.</span> <span data-hl="2-86">이것으로 오늘의 강의를 마치도록 하겠습니다.</span> <span data-hl="2-86">저는 지질 강의를 진행한 고려대학교 약학대학의 최수환이었습니다.</span> <span data-hl="2-86">감사합니다.</span></p>
+<p><span data-hl="2-86">오늘 저희가 영양약료 심화에서 지질이라는 하나의 성분에 대해서 살펴보았습니다.</span> <span data-hl="2-86-1">어찌 보면 1세대에서 4세대의 리드까지 이미 사실은 다양한 정맥용 지질에 대해서</span> <span data-hl="2-86">기본적인 펑셔널 어스펙들은 다 아실 텐데요.</span> <span data-hl="2-86">이걸 영양소로서의 역할과 스라이프틱 롤이라는 두 가지를 모두 다 만족하기 위해서</span> <span data-hl="2-86">실제로 우리가 현장에서 그것을 고려한 지질의 용량과 투여 속도를 계획하고 있는 것들인지</span> <span data-hl="2-86">그런 것들에 대한 근거들이 많이 나와 있는데 우리가 그런 근거들을 확인하고 있는지</span> <span data-hl="2-86-7">그리고 이미 나와 있는 어떤 미국, 유럽 등 다양한 국가 간의 지침들의 차이가 이전보다 감소하였는데 왜 그런지</span> <span data-hl="2-86-7">혹은 이런 것들을 바탕으로 예전에 나온 지침들을 새롭게 해석하고 볼 수 있는지</span> <span data-hl="2-86-10">따라서 정맥영양과 임상영양을 담당하는 약사로서 좀 더 근거를 가지고 종합적인 판단을 할 수 있는지</span> <span data-hl="2-86">이런 것들을 살펴보고자 하였고요.</span> <span data-hl="2-86">오늘 저랑 한 2시간 정도 지질에 대해서 살펴보았는데</span> <span data-hl="2-86">해당 내용을 통해서 실제로 정맥 영양에서 좀 더 근거를 가지고</span> <span data-hl="2-86">근거에 기반한 안전하고 효과적인 정맥 영양요법을 하시는데 도움이 되었으면 합니다.</span> <span data-hl="2-86">이것으로 오늘의 강의를 마치도록 하겠습니다.</span> <span data-hl="2-86">저는 지질 강의를 진행한 고려대학교 약학대학의 최수환이었습니다.</span> <span data-hl="2-86">감사합니다.</span></p>
   </div>
 </section>
 </article>
@@ -2815,10 +2845,10 @@
 <section class="pair">
   <div class="slide shot"><div class="frame"><img src="adult/03/f_0055.webp" alt="5. Amino acid composition in PN" width="706" height="511" decoding="async"><span class="box" data-hl="3-54-2" style="left:6.40%;top:17.57%;width:59.16%;height:6.27%"></span><span class="box" data-hl="3-54-4" style="left:6.68%;top:31.24%;width:56.32%;height:5.49%"></span><span class="box" data-hl="3-54" style="left:0.71%;top:1.33%;width:55.53%;height:7.32%"></span><span class="box" data-hl="3-54-6" style="left:2.72%;top:44.91%;width:84.65%;height:5.88%"></span><span class="box" data-hl="3-54-9" style="left:6.68%;top:63.39%;width:88.30%;height:5.40%"></span><span class="box" data-hl="3-54-12" style="left:6.82%;top:12.62%;width:78.48%;height:4.73%"></span><span class="box" data-hl="3-54-12" style="left:3.23%;top:57.00%;width:73.29%;height:4.96%"></span><span class="box" data-hl="3-54-12" style="left:10.22%;top:80.41%;width:17.17%;height:3.34%"></span><span class="box" data-hl="3-54-3" style="left:2.30%;top:24.54%;width:48.09%;height:5.54%"></span><span class="box" data-hl="3-54-5" style="left:6.88%;top:37.18%;width:48.66%;height:5.58%"></span><span class="box" data-hl="3-54-7" style="left:6.80%;top:49.91%;width:20.82%;height:5.11%"></span><span class="box" data-hl="3-54-10" style="left:10.41%;top:69.06%;width:9.41%;height:3.42%"></span><span class="box" data-hl="3-54-11" style="left:7.01%;top:75.17%;width:82.29%;height:4.63%"></span><span class="box" data-hl="3-54-13" style="left:7.00%;top:85.76%;width:59.75%;height:5.26%"></span><span class="box" data-hl="3-54-14" style="left:7.02%;top:92.76%;width:58.91%;height:4.45%"></span></div><div class="sr">
 <h3 data-hl="3-54">5. Amino acid composition in PN</h3>
-<ul><li data-hl="3-54-1">Crystalline amino acids are used in PN formulations to</li><li data-hl="3-54-2">provide protein, 4 kcal/g, 100 m0sm1%</li><li data-hl="3-54-3">Nitrogen balance calculations</li><li data-hl="3-54-4">O Generally assumed to be 16% nitrogen</li><li data-hl="3-54-5">06.25 g amino acids = 1 g nitrogen</li><li data-hl="3-54-6">② 8.5%, 10%, and 15% are most frequently used for PN</li><li data-hl="3-54-7">compounding</li><li data-hl="3-54-8">Commercially available amino acid formulations</li><li data-hl="3-54-9">O Various concentrations and combinations of electrolytes and/or</li><li data-hl="3-54-10">buffers</li><li data-hl="3-54-11">O Cognizant that the electrolyte content of certain amino acid</li><li data-hl="3-54-12">formulations</li><li data-hl="3-54-13">O Standard or balanced amino acid products</li><li data-hl="3-54-14">O Modified or specialty amino acid products</li></ul>
+<ul><li data-hl="3-54-1">Crystalline amino acids are used in PN formulations to</li><li data-hl="3-54-2">provide protein, 4 kcal/g, 100 mOsm/%</li><li data-hl="3-54-3">Nitrogen balance calculations</li><li data-hl="3-54-4">O Generally assumed to be 16% nitrogen</li><li data-hl="3-54-5">06.25 g amino acids = 1 g nitrogen</li><li data-hl="3-54-6">② 8.5%, 10%, and 15% are most frequently used for PN</li><li data-hl="3-54-7">compounding</li><li data-hl="3-54-8">Commercially available amino acid formulations</li><li data-hl="3-54-9">O Various concentrations and combinations of electrolytes and/or</li><li data-hl="3-54-10">buffers</li><li data-hl="3-54-11">O Cognizant that the electrolyte content of certain amino acid</li><li data-hl="3-54-12">formulations</li><li data-hl="3-54-13">O Standard or balanced amino acid products</li><li data-hl="3-54-14">O Modified or specialty amino acid products</li></ul>
   </div></div>
   <div class="talk">
-<p><span data-hl="3-54-2">결정성 아미노산은 PN제제에 사용되어 단백질을 제공하게 됩니다.</span> <span data-hl="3-54-2">이때 그람당 4kcal, %당 100mO2를 제공하게 되고요.</span> <span data-hl="3-54-4">질소 평형 계산에서는 일반적으로 질소 16%로 가정했을 때</span> <span data-hl="3-54">아미노산 6.25g이 나이트로젠 1g과 동등한 용량이 됩니다.</span> <span data-hl="3-54-6">그리고 8.5%, 10%, 15% PN 컴파운딩에 가장 많이 사용되고</span> <span data-hl="3-54-9">상업적으로 이용 가능한 아미노산 제제에는 전해질 또는 완충액의 다양한 농도 및 구성으로 이루어져 있어 특정 아미노산 제제의 경우 전해질 함량을 고려해야 합니다.</span> <span data-hl="3-54">표준화되는 아미노산 제제나 변형된 특수한 아미노산 제제들이 있습니다.</span></p>
+<p><span data-hl="3-54-2">결정성 아미노산은 PN제제에 사용되어 단백질을 제공하게 됩니다.</span> <span data-hl="3-54-2">그램당 4 kcal를 제공하고, 아미노산 수액의 삼투압은 1%당 100 mOsm입니다.</span> <span data-hl="3-54-4">질소 평형 계산에서는 일반적으로 질소 16%로 가정했을 때</span> <span data-hl="3-54">아미노산 6.25g이 나이트로젠 1g과 동등한 용량이 됩니다.</span> <span data-hl="3-54-6">그리고 8.5%, 10%, 15% PN 컴파운딩에 가장 많이 사용되고</span> <span data-hl="3-54-9">상업적으로 이용 가능한 아미노산 제제에는 전해질 또는 완충액의 다양한 농도 및 구성으로 이루어져 있어 특정 아미노산 제제의 경우 전해질 함량을 고려해야 합니다.</span> <span data-hl="3-54">표준화되는 아미노산 제제나 변형된 특수한 아미노산 제제들이 있습니다.</span></p>
   </div>
 </section>
 <section class="pair">
@@ -4505,7 +4535,7 @@
 <section class="pair">
   <div class="slide shot"><div class="frame"><img src="adult/05/f_0008.webp" alt="1. Body Fluid components &amp;amp; Electrolytes" width="619" height="491" decoding="async"><span class="box" data-hl="5-8-1" style="left:3.47%;top:13.01%;width:64.99%;height:5.68%"></span><span class="box" data-hl="t5-8terms" style="left:12.17%;top:25.98%;width:11.47%;height:5.77%"></span><span class="box" data-hl="t5-8def" style="left:16.05%;top:32.53%;width:83.06%;height:5.68%"></span><span class="box" data-hl="5-8-4" style="left:19.92%;top:45.13%;width:39.83%;height:4.87%"></span><span class="box" data-hl="t5-8dex" style="left:19.92%;top:50.82%;width:51.45%;height:6.08%"></span><span class="box" data-hl="t5-8nacl" style="left:19.92%;top:56.92%;width:38.86%;height:5.27%"></span><span class="box" data-hl="t5-8mem" style="left:12.18%;top:68.71%;width:76.28%;height:6.90%"></span><span class="box" data-hl="t5-8move" style="left:12.18%;top:75.21%;width:85.32%;height:5.68%"></span><span class="box" data-hl="t5-8range" style="left:12.18%;top:82.12%;width:54.99%;height:5.27%"></span><span class="box" data-hl="t5-8same" style="left:12.18%;top:88.22%;width:55.96%;height:5.68%"></span></div><div class="sr">
 <h3 data-hl="5-8">1. Body Fluid components &amp; Electrolytes</h3>
-<ul><li data-hl="5-8-1">혈장 삼투압 농도 (Plasma Osmolality)</li><li data-hl="5-8-2">Osmolality (osmol/kg): 1kg 용매에 들어있는 용질의 수</li><li data-hl="5-8-3">1mOsm=1mmol of solute in 1kg of water</li><li data-hl="5-8-4">용질의 분자량과는 관계 없음</li><li data-hl="5-8-5">Dextrose, Albumin: 1mOsm/mmol</li><li data-hl="5-8-6">NaCl, KCl: 2m0sm/mmol</li><li data-hl="5-8-7">Osmolarity (osmol/L)</li><li data-hl="5-8-8">+ 수분은 세포막을 자유롭게 이동, 용질 통과는 선택적</li><li data-hl="5-8-9">* 수분은 삼투압이 높은 방향으로 이동하여 삼투압 평형 이룸</li><li data-hl="5-8-10">* 체액의 삼투압: 275-290 m0sm/kg</li><li data-hl="5-8-11">* 모든 체내 수분 구획의 삼투압은 동일</li><li data-hl="5-8-12">- 혈장 삼투압은 TBW의 삼투압을 반영</li></ul>
+<ul><li data-hl="5-8-1">혈장 삼투압 농도 (Plasma Osmolality)</li><li data-hl="5-8-2">Osmolality (osmol/kg): 1kg 용매에 들어있는 용질의 수</li><li data-hl="5-8-3">1mOsm=1mmol of solute in 1kg of water</li><li data-hl="5-8-4">용질의 분자량과는 관계 없음</li><li data-hl="5-8-5">Dextrose, Albumin: 1mOsm/mmol</li><li data-hl="5-8-6">NaCl, KCl: 2mOsm/mmol</li><li data-hl="5-8-7">Osmolarity (osmol/L)</li><li data-hl="5-8-8">+ 수분은 세포막을 자유롭게 이동, 용질 통과는 선택적</li><li data-hl="5-8-9">* 수분은 삼투압이 높은 방향으로 이동하여 삼투압 평형 이룸</li><li data-hl="5-8-10">* 체액의 삼투압: 275-290 mOsm/kg</li><li data-hl="5-8-11">* 모든 체내 수분 구획의 삼투압은 동일</li><li data-hl="5-8-12">- 혈장 삼투압은 TBW의 삼투압을 반영</li></ul>
   </div></div>
   <div class="talk">
 <p><span data-hl="5-8-1">혈장 삼투압 농도(plasma osmolality)인데요.</span> <span data-hl="t5-8terms">삼투질농도는 저희가 두 가지 용어를 사용하긴 하는데, 실제로 임상에서는 거의 두 가지 용어를 동일하게 생각하고 있다고 보시면 될 것 같고요.</span> <span data-hl="t5-8def">삼투질농도는 1kg 용매에 들어있는 용질의 수를 저희가 얘기를 하게 되고요.</span> <span data-hl="5-8-4">용질의 분자량과는 관계가 없습니다.</span> <span data-hl="t5-8dex">덱스트로스(dextrose)나 알부민(albumin)같이 해리가 되지 않는 것은 1 mOsm 그대로 되는 거고요.</span> <span data-hl="t5-8nacl">그 다음에 NaCl이나 KCl과 같은 것들은 이온이 해리되기 때문에 2 mOsm이 됩니다.</span> <span data-hl="t5-8unit">단위가 좀 다르죠. 여기는 kg이고 여기는 L이 되고요.</span> <span data-hl="t5-8mem">그 다음에 수분은 세포막을 자유롭게 이동하고, 용질 통과는 선택적이라고 보시면 되고요.</span> <span data-hl="t5-8move">원래 수분은 삼투압이 높은 방향으로 이동을 해서 삼투압 평형을 이루려고 합니다.</span> <span data-hl="t5-8range">그 다음에 체액의 정상 삼투압은 275에서 290 mOsm/kg 정도로 생각을 하고 있고요.</span> <span data-hl="t5-8same">결국 모든 체내 수분 구획의 삼투압은 동일하다라고 생각을 하고 있습니다.</span></p>
@@ -6130,7 +6160,7 @@
 <section class="pair">
   <div class="slide shot"><div class="frame"><img src="adult/06/f_0039.webp" alt="3. Nutritional requirements &amp;amp; formulations" width="745" height="512" decoding="async"><span class="box" data-hl="6-38-1" style="left:2.55%;top:12.49%;width:47.45%;height:5.49%"></span><span class="box" data-hl="6-38-2" style="left:6.30%;top:18.74%;width:32.17%;height:5.49%"></span><span class="box" data-hl="6-38-4" style="left:6.30%;top:32.02%;width:89.27%;height:5.88%"></span></div><div class="sr">
 <h3 data-hl="6-38">3. Nutritional requirements &amp; formulations</h3>
-<ul><li data-hl="6-38-1">Macronutrients - Carbohydrate</li><li data-hl="6-38-2">비 단백 열량의 60-75%</li><li data-hl="6-38-3">O osmolarity (50m0sm/%)</li><li data-hl="6-38-4">Glucose monohydrate (3.4 kcal/g), Glucose anhydrous (3.85 kcal/g)</li><li data-hl="6-38-5">010~12.5 % (Peripheral PN), up to 25 % or higher (Central PN)</li><li data-hl="6-38-6">O Commercial glucose solutions for Pn admixture</li><li data-hl="6-38-7">50% Dextrose ini.</li></ul>
+<ul><li data-hl="6-38-1">Macronutrients - Carbohydrate</li><li data-hl="6-38-2">비 단백 열량의 60-75%</li><li data-hl="6-38-3">O osmolarity (50mOsm/%)</li><li data-hl="6-38-4">Glucose monohydrate (3.4 kcal/g), Glucose anhydrous (3.85 kcal/g)</li><li data-hl="6-38-5">010~12.5 % (Peripheral PN), up to 25 % or higher (Central PN)</li><li data-hl="6-38-6">O Commercial glucose solutions for Pn admixture</li><li data-hl="6-38-7">50% Dextrose ini.</li></ul>
   </div></div>
   <div class="talk">
 <p>열량원으로 쓰는 다량영양소 가운데 탄수화물, 그리고 단백질과 지질의 요구량과 제제를 보겠습니다. <span data-hl="6-38-1">먼저 탄수화물(carbohydrate)은</span> <span data-hl="6-38-2">비단백 열량의 60-75%</span>로 잡는 것이 적절합니다. <span data-hl="6-38-4">포도당 일수화물(glucose monohydrate)은 g당 3.4kcal, 무수 포도당(glucose anhydrous)은 g당 3.85kcal입니다.</span> <span data-hl="t6-38-pc">말초 정맥영양은 12.5% 이하, 중심 정맥영양은 25% 또는 그 이상까지 가능합니다.</span></p>
@@ -6191,7 +6221,7 @@
 <h3 data-hl="6-41">3. Nutritional requirements &amp; formulations</h3>
 <table>
 <tr data-hl="6-41-1"><th>Macronutrients - Protein</th><th></th><th></th><th></th><th></th><th></th></tr>
-<tr data-hl="6-41-2"><td>0 4 kcal/g, Osmolarity 100m0sm/%</td><td></td><td></td><td></td><td></td><td></td></tr>
+<tr data-hl="6-41-2"><td>0 4 kcal/g, Osmolarity 100mOsm/%</td><td></td><td></td><td></td><td></td><td></td></tr>
 <tr data-hl="6-41-3"><td>0 0.5-1 g/kg/day 로 시작하여 0.5-1 g/kg/day 씩 단계적 증량</td><td></td><td></td><td></td><td></td><td></td></tr>
 <tr data-hl="6-41-4"><td>O Protein needs will be increased with critical illness</td><td></td><td></td><td></td><td></td><td></td></tr>
 <tr data-hl="6-41-5"><td>O Protein requirement for pediatric</td><td></td><td></td><td></td><td></td><td></td></tr>
@@ -6532,7 +6562,7 @@
 </table>
   </div></div>
   <div class="talk">
-<p><span data-hl="6-63">다음은 국내에서 많이 쓰이는 정맥용 복합 밀양온소 제제들입니다.</span> <span data-hl="6-63-11">호르트만은 아연, 구리, 망간, 크롬이 포함된 제제로 성인 환자에서 주로 쓰이긴 하지만 소아 환자에서도 용량을 조절하여 적용할 수 있습니다.</span> <span data-hl="6-63-11">네오트레이스 같은 경우는 미숙아, 소아융, 복합 미량원소 제제로 호르트만과 성분은 동일하지만 소아 요구량에 맞추어서 아연의 함량을 높이고 망간 함량을 낮춘 제제입니다.</span> <span data-hl="6-63-12">제이볼류 같은 경우에는 아연, 구리, 크롬, 망간에 더해서 셀레늄이 포함된 제제입니다.</span> <span data-hl="6-63">그러나 이 제제는 벤질알코올을 함유하고 있기 때문에</span> <span data-hl="6-63-11">신생아 미숙아에게 취약시에는 치명적인 갑분호흡 증상이 일으킬 수 있어서 사용금기입니다.</span> <span data-hl="6-63">아다벤 같은 경우에는 아연쿠리, 망강, 크롬에다가</span> <span data-hl="6-63-12">셀레늄, 철, 요오드, 불소</span><span data-hl="6-63">, 올리브덴까지 포함한 복합제입니다.</span> <span data-hl="6-63-11">하지만 이 제제는 체중 15kg 미만 소화금기이기 때문에</span> <span data-hl="6-63">사용시 환자 연령을 확인하고 쓰셔야 합니다 후루트만, 네오트레이스, 제이블루 3가지 제제 함량을 비교해 보겠습니다.</span></p>
+<p><span data-hl="6-63">다음은 국내에서 많이 쓰이는 정맥용 복합 미량원소 제제들입니다.</span> <span data-hl="6-63-11">호르트만은 아연, 구리, 망간, 크롬이 포함된 제제로 성인 환자에서 주로 쓰이긴 하지만 소아 환자에서도 용량을 조절하여 적용할 수 있습니다.</span> <span data-hl="6-63-11">네오트레이스 같은 경우는 미숙아, 소아융, 복합 미량원소 제제로 호르트만과 성분은 동일하지만 소아 요구량에 맞추어서 아연의 함량을 높이고 망간 함량을 낮춘 제제입니다.</span> <span data-hl="6-63-12">제이볼류 같은 경우에는 아연, 구리, 크롬, 망간에 더해서 셀레늄이 포함된 제제입니다.</span> <span data-hl="6-63">그러나 이 제제는 벤질알코올을 함유하고 있기 때문에</span> <span data-hl="6-63-11">신생아 미숙아에게 취약시에는 치명적인 갑분호흡 증상이 일으킬 수 있어서 사용금기입니다.</span> <span data-hl="6-63">아다벤 같은 경우에는 아연쿠리, 망강, 크롬에다가</span> <span data-hl="6-63-12">셀레늄, 철, 요오드, 불소</span><span data-hl="6-63">, 올리브덴까지 포함한 복합제입니다.</span> <span data-hl="6-63-11">하지만 이 제제는 체중 15kg 미만 소화금기이기 때문에</span> <span data-hl="6-63">사용시 환자 연령을 확인하고 쓰셔야 합니다 후루트만, 네오트레이스, 제이블루 3가지 제제 함량을 비교해 보겠습니다.</span></p>
   </div>
 </section>
 <section class="pair">
@@ -6689,7 +6719,7 @@
 <tr data-hl="6-75-6"><td>Dextrose</td><td>39.9g</td><td>66.5 g</td><td>133 g</td></tr>
 <tr data-hl="6-75-7"><td>Protein</td><td>9.3 g</td><td>15.5 g</td><td></td></tr>
 <tr data-hl="6-75-8"><td>Lipig</td><td>7.5 g</td><td>12.5 g</td><td></td></tr>
-<tr data-hl="6-75-9"><td>Osmorality</td><td>1150 m0sm/L</td><td>1230 m0sm/L</td><td>1460 m0sm/L</td></tr>
+<tr data-hl="6-75-9"><td>Osmolarity</td><td>1150 mOsm/L</td><td>1230 mOsm/L</td><td>1460 mOsm/L</td></tr>
 <tr data-hl="6-75-10"><td>* 제약회사에서 생산되는 미숙아, 유•소아용 3-in-1 상품형 중심 TPN</td><td></td><td></td><td></td></tr>
 <tr data-hl="6-75-11"><td>+ 제대혈의 혈장레벨과 유사한 아미노산 함유 (Taurine 함유)</td><td></td><td></td><td></td></tr>
 <tr data-hl="6-75-12"><td>+ Fish oil 미포함 (Soybean oil + Olive oil 20:80 으로 포함)</td><td></td><td></td><td></td></tr>
@@ -7228,7 +7258,7 @@
 <section class="pair">
   <div class="slide shot"><div class="frame"><img src="adult/06/f_0124.webp" alt="6. Case study Case 1 - Hirschsprung&amp;#x27;s disease" width="658" height="540" decoding="async"><span class="box" data-hl="6-121" style="left:0.50%;top:1.39%;width:25.44%;height:6.85%"></span><span class="box" data-hl="6-121-6" style="left:11.76%;top:37.75%;width:20.86%;height:3.02%"></span><span class="box" data-hl="6-121-1" style="left:7.75%;top:18.50%;width:23.14%;height:4.19%"></span><span class="box" data-hl="6-121-2" style="left:24.01%;top:27.29%;width:17.17%;height:3.33%"></span><span class="box" data-hl="6-121-4" style="left:12.04%;top:33.61%;width:19.71%;height:3.43%"></span><span class="box" data-hl="6-121-4" style="left:60.02%;top:33.34%;width:19.71%;height:3.70%"></span><span class="box" data-hl="6-121-8" style="left:12.04%;top:41.94%;width:19.50%;height:2.36%"></span><span class="box" data-hl="6-121-10" style="left:12.04%;top:45.35%;width:23.57%;height:2.62%"></span><span class="box" data-hl="6-121-12" style="left:12.03%;top:49.24%;width:10.50%;height:2.38%"></span><span class="box" data-hl="6-121-12" style="left:59.80%;top:49.18%;width:10.53%;height:2.49%"></span><span class="box" data-hl="6-121-14" style="left:12.04%;top:52.87%;width:8.36%;height:2.13%"></span><span class="box" data-hl="6-121-14" style="left:59.82%;top:52.87%;width:8.36%;height:2.41%"></span><span class="box" data-hl="6-121-16" style="left:12.25%;top:56.55%;width:17.57%;height:2.35%"></span><span class="box" data-hl="6-121-16" style="left:59.82%;top:56.55%;width:17.78%;height:2.35%"></span><span class="box" data-hl="6-121-18" style="left:12.04%;top:59.91%;width:12.21%;height:2.41%"></span><span class="box" data-hl="6-121-18" style="left:59.82%;top:59.91%;width:12.43%;height:2.41%"></span><span class="box" data-hl="6-121-20" style="left:12.04%;top:63.59%;width:14.36%;height:2.62%"></span><span class="box" data-hl="6-121-20" style="left:59.82%;top:63.59%;width:14.56%;height:2.62%"></span><span class="box" data-hl="6-121-22" style="left:12.04%;top:67.22%;width:14.14%;height:2.62%"></span><span class="box" data-hl="6-121-22" style="left:59.82%;top:67.22%;width:14.36%;height:2.62%"></span><span class="box" data-hl="6-121-24" style="left:12.04%;top:70.88%;width:12.00%;height:2.36%"></span><span class="box" data-hl="6-121-24" style="left:59.82%;top:70.88%;width:12.00%;height:2.36%"></span><span class="box" data-hl="6-121-26" style="left:12.03%;top:74.47%;width:11.59%;height:2.73%"></span><span class="box" data-hl="6-121-27" style="left:12.04%;top:81.83%;width:37.93%;height:2.89%"></span><span class="box" data-hl="6-121-29" style="left:12.04%;top:85.19%;width:30.85%;height:2.89%"></span><span class="box" data-hl="6-121-31" style="left:12.04%;top:89.12%;width:16.92%;height:2.64%"></span><span class="box" data-hl="6-121-31" style="left:59.82%;top:89.12%;width:17.14%;height:2.36%"></span><span class="box" data-hl="6-121-33" style="left:12.25%;top:92.77%;width:35.78%;height:2.08%"></span><span class="box" data-hl="6-121-33" style="left:60.02%;top:92.77%;width:35.78%;height:2.35%"></span><span class="box" data-hl="6-121-3" style="left:71.57%;top:27.14%;width:17.42%;height:3.65%"></span><span class="box" data-hl="6-121-7" style="left:60.02%;top:38.31%;width:19.93%;height:2.35%"></span><span class="box" data-hl="6-121-9" style="left:60.02%;top:41.67%;width:20.79%;height:2.64%"></span><span class="box" data-hl="6-121-11" style="left:59.82%;top:45.35%;width:25.93%;height:2.62%"></span><span class="box" data-hl="6-121-28" style="left:59.82%;top:81.83%;width:37.93%;height:2.89%"></span><span class="box" data-hl="6-121-30" style="left:60.02%;top:85.46%;width:31.71%;height:2.62%"></span></div><div class="sr">
 <h3 data-hl="6-121">6. Case study Case 1 - Hirschsprung&#x27;s disease</h3>
-<ul><li data-hl="6-121-1">Nutrition plan</li><li data-hl="6-121-2">Day 1 Regimen</li><li data-hl="6-121-3">Day 2 Regimen</li><li data-hl="6-121-4">Special TPN 조성</li><li data-hl="6-121-5">Special TPN 조성</li><li data-hl="6-121-6">Dextrose 50%: 164 ml</li><li data-hl="6-121-7">Dextrose 50%: 240 ml</li><li data-hl="6-121-8">10% Primene: 185 ml</li><li data-hl="6-121-9">10% Primene: 270 ml 스</li><li data-hl="6-121-10">Water for injection: 420 ml</li><li data-hl="6-121-11">Water for injection: 259 ml w</li><li data-hl="6-121-12">NaCl: 58 ml</li><li data-hl="6-121-13">NaCl: 58 ml</li><li data-hl="6-121-14">KCl: 4ml</li><li data-hl="6-121-15">KCl: 4 ml</li><li data-hl="6-121-16">Ca gluconate: 20 ml</li><li data-hl="6-121-17">Ca gluconate: 20 ml</li><li data-hl="6-121-18">Phosten: 9 ml</li><li data-hl="6-121-19">Phosten: 9 ml</li><li data-hl="6-121-20">Mg sulfate: 7 ml</li><li data-hl="6-121-21">Mg sulfate: 7 ml</li><li data-hl="6-121-22">Furtman: 0.1 ml</li><li data-hl="6-121-23">Furtman: 0.1 ml</li><li data-hl="6-121-24">Zinc S: 0.4 ml</li><li data-hl="6-121-25">Zinc S: 0.4 ml</li><li data-hl="6-121-26">MVH: 2.5 ml</li><li data-hl="6-121-27">870mL/bag. 0.448kcal/mL. 1011.9mOsm/L.</li><li data-hl="6-121-28">870mL/bag. 0.655kcal/mL. 1328.0m0sm/L.</li><li data-hl="6-121-29">Glucose 9.43%. protein 0.021g/mL</li><li data-hl="6-121-30">Glucose 13.79%. protein 0.031g/mL</li><li data-hl="6-121-31">Ca+2P 31.90mEq/L</li><li data-hl="6-121-32">Ca+2P 31.90mEq/L</li><li data-hl="6-121-33">Na conc. 133.3mEq/L. K conc, 19.5mEq/L</li><li data-hl="6-121-34">Na conc. 133.3mEq/L. K conc. 19.5mEq/L</li></ul>
+<ul><li data-hl="6-121-1">Nutrition plan</li><li data-hl="6-121-2">Day 1 Regimen</li><li data-hl="6-121-3">Day 2 Regimen</li><li data-hl="6-121-4">Special TPN 조성</li><li data-hl="6-121-5">Special TPN 조성</li><li data-hl="6-121-6">Dextrose 50%: 164 ml</li><li data-hl="6-121-7">Dextrose 50%: 240 ml</li><li data-hl="6-121-8">10% Primene: 185 ml</li><li data-hl="6-121-9">10% Primene: 270 ml 스</li><li data-hl="6-121-10">Water for injection: 420 ml</li><li data-hl="6-121-11">Water for injection: 259 ml w</li><li data-hl="6-121-12">NaCl: 58 ml</li><li data-hl="6-121-13">NaCl: 58 ml</li><li data-hl="6-121-14">KCl: 4ml</li><li data-hl="6-121-15">KCl: 4 ml</li><li data-hl="6-121-16">Ca gluconate: 20 ml</li><li data-hl="6-121-17">Ca gluconate: 20 ml</li><li data-hl="6-121-18">Phosten: 9 ml</li><li data-hl="6-121-19">Phosten: 9 ml</li><li data-hl="6-121-20">Mg sulfate: 7 ml</li><li data-hl="6-121-21">Mg sulfate: 7 ml</li><li data-hl="6-121-22">Furtman: 0.1 ml</li><li data-hl="6-121-23">Furtman: 0.1 ml</li><li data-hl="6-121-24">Zinc S: 0.4 ml</li><li data-hl="6-121-25">Zinc S: 0.4 ml</li><li data-hl="6-121-26">MVH: 2.5 ml</li><li data-hl="6-121-27">870mL/bag. 0.448kcal/mL. 1011.9mOsm/L.</li><li data-hl="6-121-28">870mL/bag. 0.655kcal/mL. 1328.0mOsm/L.</li><li data-hl="6-121-29">Glucose 9.43%. protein 0.021g/mL</li><li data-hl="6-121-30">Glucose 13.79%. protein 0.031g/mL</li><li data-hl="6-121-31">Ca+2P 31.90mEq/L</li><li data-hl="6-121-32">Ca+2P 31.90mEq/L</li><li data-hl="6-121-33">Na conc. 133.3mEq/L. K conc, 19.5mEq/L</li><li data-hl="6-121-34">Na conc. 133.3mEq/L. K conc. 19.5mEq/L</li></ul>
   </div></div>
   <div class="talk">
 <p><span data-hl="6-121">이런 데이1,2 레지맨의 스페셜티핀 세부 조성은 다음과 같습니다.</span> <span data-hl="6-121-6">포도당은 50% 제제를 사용하였고</span> <span data-hl="6-121">아미노산 제제는 소화용 프라이멘 제제를 사용하였습니다 밀양온수 공급 목적으로 호르트만과 찡크엑스 미스도 계획하였고 멀티비타민 제제는 NVH를 소화 요구량에 맞게 미스 계획하였습니다 C플러스 빗값도 31.9로 60을 초과하지 않아 침장 형성 위험을 배제하였으며 소듕과 칼륨도 PN 리밋을 초과하지 않은 범위 내에서 계획하였습니다.</span> <span data-hl="6-121">데이2 레지맨에서는 열량 밀도를 높이기 위해서 포도당과 아미노산의 용량을 늘리고 주사용수의 볼륨을 줄였습니다.</span></p>
@@ -8330,7 +8360,7 @@
 <ul><li data-hl="7-84-1">BMI 20 미만(70세 이상), 18미만(70세미만), 1주 이상 영양요구량의</li><li data-hl="7-84-2">50% 이하 또는 2주간 식사량 감소를 확인함</li><li data-hl="7-84-3">간 장애 시 상태에 따라 단백질 공급량과 공급시기, 경구 BCAA 투여를</li><li data-hl="7-84-4">고려함</li><li data-hl="7-84-5">신 장애 시 RRT여부와 종류, CAPD시 dextrose 흡수를 고려하여</li><li data-hl="7-84-6">영양을 공급함</li><li data-hl="7-84-7">PN시작 시 필수비타민과 미량원소 투여 계획도 수립함</li></ul>
   </div></div>
   <div class="talk">
-<p><span data-hl="7-84-5">신장의 환자의 영양지원에 대해서 정리해보면 이와 같습니다.</span> <span data-hl="7-84">중증 영양불량 선정하는 게 중요하죠.</span> <span data-hl="7-84-1">6개월 몸무게 70세 이상 BMI 20 미만, 70세 미만은 BMI 18 미만의 경우</span> <span data-hl="7-84">중증 불량에 해당되는 건 꼭 잊지 말아라 라는 얘기죠.</span> <span data-hl="7-84-2">그래서 1주 이상의 요구량이 50 이하, 2주 이간의 식사량 감소 어떤 경우가 있으면 이건 다 중증 분량에 해당이 됩니다.</span> <span data-hl="7-84-3">간장의 시 상태에 따라서 단백질 공급량 공급 시기 경구 BCA 투여를 고려했던 걸 했었죠.</span> <span data-hl="7-84-5">신장의 시에는 RRT 여부 종류 구분하시고 만약에 CAPD를 하고 있으면 덱스트로스 흡수를 고려해서 영양 목표를 공급하시기 바랍니다.</span> <span data-hl="7-84-7">PN 시작할 때 필수 비타민, 밀양온소, 병원 사정에 맞게 어떻게 투여할지 계획을 수립하시기 바랍니다.</span></p>
+<p><span data-hl="7-84-5">신장의 환자의 영양지원에 대해서 정리해보면 이와 같습니다.</span> <span data-hl="7-84">중증 영양불량 선정하는 게 중요하죠.</span> <span data-hl="7-84-1">6개월 몸무게 70세 이상 BMI 20 미만, 70세 미만은 BMI 18 미만의 경우</span> <span data-hl="7-84">중증 불량에 해당되는 건 꼭 잊지 말아라 라는 얘기죠.</span> <span data-hl="7-84-2">그래서 1주 이상의 요구량이 50 이하, 2주 이간의 식사량 감소 어떤 경우가 있으면 이건 다 중증 분량에 해당이 됩니다.</span> <span data-hl="7-84-3">간장의 시 상태에 따라서 단백질 공급량 공급 시기 경구 BCA 투여를 고려했던 걸 했었죠.</span> <span data-hl="7-84-5">신장의 시에는 RRT 여부 종류 구분하시고 만약에 CAPD를 하고 있으면 덱스트로스 흡수를 고려해서 영양 목표를 공급하시기 바랍니다.</span> <span data-hl="7-84-7">PN 시작할 때 필수 비타민, 미량원소, 병원 사정에 맞게 어떻게 투여할지 계획을 수립하시기 바랍니다.</span></p>
   </div>
 </section>
 <section class="pair">
@@ -12432,7 +12462,7 @@
 <ul><li data-hl="11-64-1">Discharge planning for HPN</li><li data-hl="11-64-2">오더 및 물품 점검</li><li data-hl="11-64-3">* HPN 및 기타 오더</li><li data-hl="11-64-4">HPN 오더</li><li data-hl="11-64-5">NST 의뢰를 통해 약사가 HPN 조성 및 스케쥴 계획</li><li data-hl="11-64-6">주사약 오더</li><li data-hl="11-64-7">Normal Saline, Heparin, 주사용 멀티비타민, 주사용 미량원소 등</li><li data-hl="11-64-8">경구약 오더</li><li data-hl="11-64-9">경구용 철분제, 경구용 멀티비타민, 경구용 미량원소 등</li><li data-hl="11-64-10">검사 오더</li><li data-hl="11-64-11">가정 간호 의뢰</li></ul>
   </div></div>
   <div class="talk">
-<p><span data-hl="11-64-2">재택정맥영양 준비를 마치면 오더미 물품 점검을 해야 합니다.</span> <span data-hl="11-64-5">재택정맥영양은 NST 의뢰를 통해서 약사와 계획을 하게 되고</span> <span data-hl="11-64-7">카테터 락킹을 위한 NS라든지 헤파린, 주사용 멀티비타민, 밀양온소 등의 주사용 오더도 확인해야 됩니다.</span> <span data-hl="11-64-8">경구용 약제 오더와 필요한 </span><span data-hl="11-64-10">검사 오더, </span><span data-hl="11-64-11">가정관의 의뢰도 확인을 해야 합니다.</span></p>
+<p><span data-hl="11-64-2">재택정맥영양 준비를 마치면 오더미 물품 점검을 해야 합니다.</span> <span data-hl="11-64-5">재택정맥영양은 NST 의뢰를 통해서 약사와 계획을 하게 되고</span> <span data-hl="11-64-7">카테터 락킹을 위한 NS라든지 헤파린, 주사용 멀티비타민, 미량원소 등의 주사용 오더도 확인해야 됩니다.</span> <span data-hl="11-64-8">경구용 약제 오더와 필요한 </span><span data-hl="11-64-10">검사 오더, </span><span data-hl="11-64-11">가정관의 의뢰도 확인을 해야 합니다.</span></p>
   </div>
 </section>
 <section class="pair">
@@ -14151,5 +14181,6 @@
 })();
 
 </script>
+<script src="slide-zoom.js"></script>
 </body>
 </html>
